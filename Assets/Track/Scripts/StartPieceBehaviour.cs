@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 
@@ -10,8 +9,6 @@ namespace Track.Scripts
 
         public float despawnDistance = 20f;
         private float _despawnX;
-
-        private Dictionary<GameObject, TrackPieceBehaviour> _pool;
 
         private float GetDespawnX()
         {
