@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+using utils;
 
 namespace Player.Scripts
 {
@@ -71,10 +72,12 @@ namespace Player.Scripts
 
         private void OnCollisionEnter2D(Collision2D other)
         {
-            if (other.gameObject.CompareTag(obstacleTag))
-            {
-                Debug.Log("GAME OVER");
-            }
+            other.gameObject.GetComponent<IInteractive>()?.OnCollision(gameObject);
+        }
+
+        private void OnTriggerEnter2D(Collider2D other)
+        {
+            other.gameObject.GetComponent<IInteractive>()?.OnTrigger(gameObject);
         }
     }
 }
