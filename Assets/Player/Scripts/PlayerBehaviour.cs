@@ -8,31 +8,30 @@ namespace Player.Scripts
     {
         private InputAction _moveAction;
 
-        public Transform trackContainer;
+        public Rigidbody2D playerRigidbody;
 
-        private Vector3 _targetPosition;
-
-        public float gridSize = 1;
-        public int gridRows = 3;
-
-        private float _gridStart;
+        public float laneHeight = 1;
+        public int laneCount = 3;
 
         public float minPlayerSpeed = 1;
         public float maxPlayerSpeed = 10;
-
-        public float playerAcceleration = 1;
-
+        public float playerAcceleration = 5;
         private float _currentPlayerSpeed;
+
+        public float minPlayerY = 0.5f;
+        private float _maxPlayerY;
+        public float laneSpeed = 10;
+        private float _currentPlayerY;
 
         public string obstacleTag = "Obstacle";
 
 
         private void Start()
         {
-            _targetPosition = trackContainer.transform.position;
-            _gridStart = _targetPosition.y;
-
             _currentPlayerSpeed = minPlayerSpeed;
+            _currentPlayerY = minPlayerY;
+
+            _maxPlayerY = minPlayerY + laneHeight * laneCount;
 
             _moveAction = InputSystem.actions.FindAction("Move");
             _moveAction.started += OnMovementTrigger;
@@ -40,30 +39,34 @@ namespace Player.Scripts
 
         private void Update()
         {
-            for (var childIndex = 0; childIndex < trackContainer.childCount; childIndex++)
-            {
-                var child = trackContainer.GetChild(childIndex);
+            _currentPlayerSpeed = Mathf.MoveTowards(
+                _currentPlayerSpeed,
+                maxPlayerSpeed,
+                playerAcceleration * Time.deltaTime
+            );
 
-                _targetPosition.x = child.position.x;
-                _targetPosition.x -= _currentPlayerSpeed * Time.deltaTime;
+            var pos = playerRigidbody.position;
 
-                child.position = _targetPosition;
-            }
+            pos.x += _currentPlayerSpeed * Time.deltaTime;
+            pos.y = Mathf.MoveTowards(pos.y, _currentPlayerY, laneSpeed * Time.deltaTime);
 
-            if (_currentPlayerSpeed >= maxPlayerSpeed) return;
+            playerRigidbody.MovePosition(pos);
+        }
 
-            var newPlayerSpeed = _currentPlayerSpeed + playerAcceleration * Time.deltaTime;
-            _currentPlayerSpeed = newPlayerSpeed <= maxPlayerSpeed ? newPlayerSpeed : maxPlayerSpeed;
+        private void OnDestroy()
+        {
+            if (_moveAction != null)
+                _moveAction.started -= OnMovementTrigger;
         }
 
         private void OnMovementTrigger(InputAction.CallbackContext ctx)
         {
             var moveValue = ctx.ReadValue<Vector2>();
-            var newY = _targetPosition.y - moveValue.y * gridSize;
 
-            var minY = _gridStart - gridSize * (gridRows - 1);
-            if (newY <= _gridStart && newY >= minY)
-                _targetPosition.y = newY;
+            var newY = _currentPlayerY + moveValue.y * laneHeight;
+
+            if (newY >= minPlayerY && newY < _maxPlayerY)
+                _currentPlayerY = newY;
         }
 
         private void OnCollisionEnter2D(Collision2D other)
