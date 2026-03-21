@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -24,7 +25,7 @@ namespace Player.Scripts
         public float laneSpeed = 10;
         private float _currentPlayerY;
 
-        public string obstacleTag = "Obstacle";
+        private float _oldX;
 
 
         private void Start()
@@ -36,10 +37,15 @@ namespace Player.Scripts
 
             _moveAction = InputSystem.actions.FindAction("Move");
             _moveAction.started += OnMovementTrigger;
+
+            _oldX = playerRigidbody.position.x;
         }
 
         private void Update()
         {
+            GameData.TotalDistance += Math.Abs(playerRigidbody.position.x - _oldX);
+            _oldX = playerRigidbody.position.x;
+
             _currentPlayerSpeed = Mathf.MoveTowards(
                 _currentPlayerSpeed,
                 maxPlayerSpeed,
