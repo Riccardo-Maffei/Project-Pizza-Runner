@@ -12,7 +12,9 @@ namespace Track.Scripts
         public Transform playerTransform;
 
         public int poolSize = 10;
-        public float trackWidth = 4f;
+        public float trackWidth = 4;
+
+        private float _initialPlayerPosition;
 
         private Dictionary<GameObject, TrackPieceBehaviour> _pool;
 
@@ -29,15 +31,20 @@ namespace Track.Scripts
         private void Start()
         {
             _pool = new Dictionary<GameObject, TrackPieceBehaviour>();
+            _initialPlayerPosition = playerTransform.position.x;
 
             for (var i = 0; i < poolSize; i++)
             {
-                var spawnX = trackContainer.position.x + i * trackWidth;
                 var piece = Instantiate(trackPrefab, trackContainer);
 
-                piece.transform.position = new Vector3(spawnX, trackContainer.position.y, 0);
+                var spawnX = trackContainer.position.x + i * trackWidth;
+                var distance = spawnX - _initialPlayerPosition;
+                var pieceBehaviour = piece.GetComponent<TrackPieceBehaviour>();
 
-                _pool.Add(piece, piece.GetComponent<TrackPieceBehaviour>());
+                piece.transform.position = new Vector3(spawnX, trackContainer.position.y, 0);
+                pieceBehaviour.GenerateObstacles(distance);
+
+                _pool.Add(piece, pieceBehaviour);
             }
         }
 
@@ -48,8 +55,11 @@ namespace Track.Scripts
             {
                 if (piece.transform.position.x > despawnX) continue;
 
-                piece.transform.position = GetRespawnX(piece.transform.position);
-                pieceBehaviour.GenerateObstacles();
+                var spawn = GetRespawnX(piece.transform.position);
+                var distance = spawn.x - _initialPlayerPosition;
+
+                piece.transform.position = spawn;
+                pieceBehaviour.GenerateObstacles(distance);
             }
         }
     }
