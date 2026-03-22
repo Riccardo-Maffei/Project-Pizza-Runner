@@ -6,17 +6,20 @@
     align-items: center;
 }
 
+.box, .h_box {
+    border-width: 4px;
+    border-radius: 20px;
+    border-color: rgb(0, 0, 205);
+    background-color: rgb(238, 221, 130);
+    margin: 10px;
+}
+
 .h_box {
     flex-grow: 0;
     flex-direction: row;
     align-self: auto;
     width: 80%;
     justify-content: space-between;
-    border-width: 4px;
-    border-radius: 20px;
-    border-color: rgb(0, 0, 205);
-    background-color: rgb(238, 221, 130);
-    margin: 10px;
 }
 
 #StatsContainer {
