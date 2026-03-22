@@ -43,7 +43,7 @@ namespace Player.Scripts
 
         private void Update()
         {
-            GameData.TotalDistance += Math.Abs(playerRigidbody.position.x - _oldX);
+            GameData.TotalDistance.Increase(Math.Abs(playerRigidbody.position.x - _oldX));
             _oldX = playerRigidbody.position.x;
 
             _currentPlayerSpeed = Mathf.MoveTowards(
