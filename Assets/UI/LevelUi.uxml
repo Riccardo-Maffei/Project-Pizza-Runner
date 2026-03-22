@@ -1,0 +1,26 @@
+<ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
+    <Style src="project://database/Assets/UI/Styles/LevelUi.uss?fileID=7433441132597879392&amp;guid=9703855db32c19b4782eebd44a61dd4b&amp;type=3#LevelUi"/>
+    <ui:VisualElement name="UIContainer">
+        <ui:VisualElement name="StatsContainer" class="h_box">
+            <ui:VisualElement name="DistanceContainer" class="ValueContainer">
+                <ui:Label text="Distance" name="DistanceField" style="-unity-text-align: upper-right; width: 100%;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="HpContainer" class="ValueContainer">
+                <ui:Label text="Hp" name="HpField" style="width: 100%;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="TimeContainer" class="ValueContainer">
+                <ui:Label text="Time" name="TimeField" style="width: 100%; -unity-text-align: upper-left;"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="CollectiblesContainer" class="h_box">
+            <ui:VisualElement name="CoinsContainer" class="ValueContainer" style="flex-direction: row; align-items: center; justify-content: center;">
+                <ui:Label text="Coins" name="CoinsLabel"/>
+                <ui:Label text="Coins" name="CoinsField"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="PizzasContainer" class="ValueContainer" style="flex-direction: row; align-items: center; justify-content: center;">
+                <ui:Label text="Pizzas" name="PizzasLabel"/>
+                <ui:Label text="Pizzas" name="PizzasField"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
+    </ui:VisualElement>
+</ui:UXML>

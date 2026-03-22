@@ -1,0 +1,53 @@
+#UIContainer {
+    flex-grow: 1;
+    width: 100%;
+    height: 1000%;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.h_box {
+    flex-grow: 0;
+    flex-direction: row;
+    align-self: auto;
+    width: 80%;
+    justify-content: space-between;
+    border-width: 4px;
+    border-radius: 20px;
+    border-color: rgb(0, 0, 205);
+    background-color: rgb(238, 221, 130);
+    margin: 10px;
+}
+
+#StatsContainer {
+    align-items: flex-start;
+}
+
+#StatsContainer .ValueContainer {
+    width: 33%;
+}
+
+#CollectiblesContainer .ValueContainer {
+    width: 50%;
+}
+
+#CollectiblesContainer {
+    align-items: flex-end;
+}
+
+.ValueContainer {
+    flex-grow: 0;
+    align-items: center;
+    width: auto;
+    height: auto;
+    border-width: 10px;
+    flex-shrink: 0;
+}
+
+.unity-label {
+    -unity-font-definition: url("project://database/Assets/UI/Fonts/Roboto_Mono/static/RobotoMono-Regular.ttf?fileID=12800000&guid=830046daee41aa5428209e451d4acebf&type=3#RobotoMono-Regular");
+    -unity-font-style: normal;
+    -unity-text-align: upper-center;
+    padding: 2px;
+    margin: 2px;
+}

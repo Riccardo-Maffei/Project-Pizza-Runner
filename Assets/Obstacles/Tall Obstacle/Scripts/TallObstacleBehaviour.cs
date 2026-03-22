@@ -9,7 +9,7 @@ namespace Obstacles.Tall_Obstacle.Scripts
     {
         public void OnCollision(GameObject _)
         {
-            if (GameData.Hp > 0) GameData.Hp -= 1;
+            if (GameData.Hp.GetValue() > 0) GameData.Hp.Decrease(1);
             else Debug.Log("GAME OVER");
         }
 
