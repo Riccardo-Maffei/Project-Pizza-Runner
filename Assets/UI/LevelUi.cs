@@ -84,7 +84,17 @@ namespace  UI
 
         private void Update()
         {
-            if (!GameData.CrossedFinishLine.GetValue()) GameData.CurrentTime.Increase(Time.deltaTime);
+            if (GameData.CrossedFinishLine.GetValue()) return;
+
+            var currentLock = GameData.TimeLock.GetValue();
+            var nextLock = currentLock - Time.deltaTime;
+
+            if (nextLock < 0)
+            {
+                GameData.TimeLock.SetValue(0);
+                GameData.CurrentTime.Increase(Math.Abs(nextLock));
+            }
+            else GameData.TimeLock.SetValue(nextLock);
         }
     }
 }
