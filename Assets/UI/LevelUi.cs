@@ -16,12 +16,14 @@ namespace  UI
         private Label _timeField;
         private Label _coinsField;
         private Label _pizzasField;
+        private VisualElement _victoryMsgContainer;
 
         private Action<double> _distanceObserver;
         private Action<int> _hpObserver;
         private Action<float> _timeObserver;
         private Action<int> _coinsObserver;
         private Action<int> _pizzasObserver;
+        private Action<bool> _victoryObserver;
 
         private void OnEnable()
         {
@@ -32,6 +34,7 @@ namespace  UI
             _timeField = root.Q<Label>("TimeField");
             _coinsField = root.Q<Label>("CoinsField");
             _pizzasField = root.Q<Label>("PizzasField");
+            _victoryMsgContainer = root.Q<VisualElement>("VictoryMsgContainer");
 
             GameData.Reset();
 
@@ -52,18 +55,21 @@ namespace  UI
             _timeObserver = newValue => _timeField.text = TimeSpan.FromSeconds(newValue).ToString(@"hh\:mm\:ss\.fff");
             _coinsObserver = newValue => _coinsField.text = newValue.ToString();
             _pizzasObserver = newValue => _pizzasField.text = newValue.ToString();
+            _victoryObserver = newValue => _victoryMsgContainer.style.display = newValue ? DisplayStyle.Flex : DisplayStyle.None;
 
             _distanceObserver(GameData.TotalDistance.GetValue());
             _hpObserver(GameData.Hp.GetValue());
             _timeObserver(GameData.CurrentTime.GetValue());
             _coinsObserver(GameData.Coins.GetValue());
             _pizzasObserver(GameData.Pizzas.GetValue());
+            _victoryObserver(GameData.CrossedFinishLine.GetValue());
 
             GameData.TotalDistance.Subscribe(_distanceObserver);
             GameData.Hp.Subscribe(_hpObserver);
             GameData.CurrentTime.Subscribe(_timeObserver);
             GameData.Coins.Subscribe(_coinsObserver);
             GameData.Pizzas.Subscribe(_pizzasObserver);
+            GameData.CrossedFinishLine.Subscribe(_victoryObserver);
         }
 
         private void OnDisable()
@@ -73,11 +79,12 @@ namespace  UI
             GameData.CurrentTime.Unsubscribe(_timeObserver);
             GameData.Coins.Unsubscribe(_coinsObserver);
             GameData.Pizzas.Unsubscribe(_pizzasObserver);
+            GameData.CrossedFinishLine.Unsubscribe(_victoryObserver);
         }
 
         private void Update()
         {
-            GameData.CurrentTime.Increase(Time.deltaTime);
+            if (!GameData.CrossedFinishLine.GetValue()) GameData.CurrentTime.Increase(Time.deltaTime);
         }
     }
 }
