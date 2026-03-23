@@ -104,7 +104,11 @@ namespace Track.Scripts
                     for (var obstacleIndex = 0; obstacleIndex < trackObstacleContainers.Length; obstacleIndex++)
                     {
                         trackObstacleContainers[obstacleIndex].SetActive(false);
-                        if (trackType != TrackType.Aftermath) GenerateCollectibles(trackItemContainers[obstacleIndex]);
+
+                        var collectibleContainer = trackItemContainers[obstacleIndex];
+
+                        if (trackType != TrackType.Aftermath) GenerateCollectibles(collectibleContainer);
+                        else ClearChildren(collectibleContainer);
                     }
 
                     break;
