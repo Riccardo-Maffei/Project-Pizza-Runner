@@ -15,6 +15,8 @@
         public static readonly Observable<bool> SpawnedFinishLine = new(false);
         public static readonly Observable<bool> CrossedFinishLine = new(false);
 
+        public static readonly Observable<bool> DamageEnabled = new(true);
+
         public static void Reset()
         {
             CurrentTime.SetValue(0);
@@ -27,6 +29,8 @@
             TrackLength.SetValue(100);
             SpawnedFinishLine.SetValue(false);
             CrossedFinishLine.SetValue(false);
+
+            DamageEnabled.SetValue(true);
         }
     }
 }

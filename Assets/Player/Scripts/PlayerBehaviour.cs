@@ -1,6 +1,7 @@
 using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
+
 using utils;
 
 namespace Player.Scripts
@@ -27,9 +28,6 @@ namespace Player.Scripts
         private float _currentPlayerSpeed;
         private float _oldX;
 
-        // Variable für den Trefferschutz (Cooldown)
-        private bool _canTakeDamage = true;
-
         private void Start()
         {
             _currentPlayerSpeed = minPlayerSpeed;
@@ -44,18 +42,18 @@ namespace Player.Scripts
 
         private void Update()
         {
-            // Distanz-Tracking für GameData
+            // Distance-Tracking for GameData
             GameData.TotalDistance.Increase(Math.Abs(playerRigidbody.position.x - _oldX));
             _oldX = playerRigidbody.position.x;
 
-            // Beschleunigung berechnen
+            // Calculate speed
             _currentPlayerSpeed = Mathf.MoveTowards(
                 _currentPlayerSpeed,
                 maxPlayerSpeed,
                 playerAcceleration * Time.deltaTime
             );
 
-            // Position aktualisieren
+            // Refresh position
             var pos = playerRigidbody.position;
             pos.x += _currentPlayerSpeed * Time.deltaTime;
             pos.y = Mathf.MoveTowards(pos.y, _currentPlayerY, laneSpeed * Time.deltaTime);
@@ -80,54 +78,12 @@ namespace Player.Scripts
 
         private void OnCollisionEnter2D(Collision2D collision)
         {
-            // 1. Prüfen, ob wir gerade Schaden nehmen dürfen (verhindert Doppel-Abzug)
-            if (!_canTakeDamage) return;
-
-            // 2. Prüfen, ob das getroffene Objekt ein Hindernis ist
-            if (collision.gameObject.CompareTag("Obstacle"))
-            {
-                _canTakeDamage = false; // Schaden kurzzeitig sperren
-
-                if (GameData.Hp.GetValue() > 0)
-                {
-                    GameData.Hp.Decrease(1);
-                    Debug.Log("Leben abgezogen! Verbleibend: " + GameData.Hp.GetValue());
-
-                    // Nach 0.5 Sekunden wieder Schaden erlauben
-                    Invoke(nameof(ResetDamage), 0.5f);
-                }
-
-                // 3. Prüfen, ob das Spiel beendet werden muss
-                if (GameData.Hp.GetValue() <= 0)
-                {
-                    EndGame();
-                }
-            }
-
-            // Bestehende Interaktions-Logik aufrufen
             collision.gameObject.GetComponent<IInteractive>()?.OnCollision(gameObject);
         }
 
         private void OnTriggerEnter2D(Collider2D other)
         {
             other.gameObject.GetComponent<IInteractive>()?.OnTrigger(gameObject);
-        }
-
-        // Hilfsmethode, um den Trefferschutz aufzuheben
-        private void ResetDamage()
-        {
-            _canTakeDamage = true;
-        }
-
-        private void EndGame()
-        {
-            Debug.Log("GAME OVER - Lost all lives.");
-
-        #if UNITY_EDITOR
-            UnityEditor.EditorApplication.isPlaying = false;
-        #else
-            Application.Quit();
-        #endif
         }
     }
 }
