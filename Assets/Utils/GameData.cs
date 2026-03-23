@@ -24,7 +24,7 @@
             Pizzas.SetValue(0);
             Hp.SetValue(StartingHp);
 
-            TrackLength.SetValue(100);
+            TrackLength.SetValue(ProgramData.NewGameTrackLength.GetValue());
             SpawnedFinishLine.SetValue(false);
             CrossedFinishLine.SetValue(false);
         }

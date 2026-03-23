@@ -55,6 +55,10 @@ MonoBehaviour:
   - {fileID: 5349553400188767670}
   - {fileID: 2925303254392525651}
   - {fileID: 1118383076244516197}
+  emptinessLikelihood: 10
+  collectibleEntries:
+  - prefab: {fileID: 4390458053784488387, guid: 374a2c231fb735340ad76de7074e281a, type: 3}
+    likelihood: 2.5
   finishLinePrefab: {fileID: 1617420018742110046, guid: 220c54a761320b44f97f3145dd54f324, type: 3}
 --- !u!1001 &368748886524062018
 PrefabInstance:

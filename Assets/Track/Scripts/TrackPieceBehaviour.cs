@@ -1,3 +1,6 @@
+using System.Linq;
+using System.Collections.Generic;
+
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -11,6 +14,16 @@ namespace Track.Scripts
         public GameObject[] trackObstacleContainers;
         public GameObject[] trackItemContainers;
 
+        [System.Serializable]
+        public struct CollectibleEntry
+        {
+            public GameObject prefab;
+            public float likelihood;
+        }
+
+        public float emptinessLikelihood;
+        public List<CollectibleEntry> collectibleEntries;
+
         public GameObject finishLinePrefab;
 
         private enum TrackType
@@ -18,7 +31,8 @@ namespace Track.Scripts
             Clear,
             Single,
             Double,
-            Finish
+            Finish,
+            Aftermath
         }
 
         private readonly TrackType[] _trackTypes =  { TrackType.Clear, TrackType.Single, TrackType.Double };
@@ -32,7 +46,7 @@ namespace Track.Scripts
                 trackType = TrackType.Finish;
                 GameData.SpawnedFinishLine.SetValue(true);
             }
-            else if (distanceFromStart >= GameData.TrackLength.GetValue()) trackType = TrackType.Clear;
+            else if (distanceFromStart >= GameData.TrackLength.GetValue()) trackType = TrackType.Aftermath;
             else trackType = _trackTypes[Random.Range(0, _trackTypes.Length)];
 
             switch (trackType)
@@ -43,7 +57,12 @@ namespace Track.Scripts
 
                     for (var obstacleIndex = 0; obstacleIndex < trackObstacleContainers.Length; obstacleIndex++)
                     {
-                        trackObstacleContainers[obstacleIndex].SetActive(obstacleIndex == targetIndex);
+                        if (obstacleIndex == targetIndex) trackObstacleContainers[obstacleIndex].SetActive(true);
+                        else
+                        {
+                            trackObstacleContainers[obstacleIndex].SetActive(false);
+                            GenerateCollectibles(trackItemContainers[obstacleIndex]);
+                        }
                     }
 
                     break;
@@ -54,7 +73,12 @@ namespace Track.Scripts
 
                     for (var obstacleIndex = 0; obstacleIndex < trackObstacleContainers.Length; obstacleIndex++)
                     {
-                        trackObstacleContainers[obstacleIndex].SetActive(obstacleIndex != targetIndex);
+                        if (obstacleIndex != targetIndex) trackObstacleContainers[obstacleIndex].SetActive(true);
+                        else
+                        {
+                            trackObstacleContainers[obstacleIndex].SetActive(false);
+                            GenerateCollectibles(trackItemContainers[obstacleIndex]);
+                        }
                     }
 
                     break;
@@ -74,15 +98,48 @@ namespace Track.Scripts
                     break;
                 }
                 case TrackType.Clear:
+                case TrackType.Aftermath:
                 default:
                 {
-                    foreach (var obstacleContainer in trackObstacleContainers)
+                    for (var obstacleIndex = 0; obstacleIndex < trackObstacleContainers.Length; obstacleIndex++)
                     {
-                        obstacleContainer.SetActive(false);
+                        trackObstacleContainers[obstacleIndex].SetActive(false);
+                        if (trackType != TrackType.Aftermath) GenerateCollectibles(trackItemContainers[obstacleIndex]);
                     }
 
                     break;
                 }
+            }
+        }
+
+        private float TotalLikelihood()
+        {
+            return emptinessLikelihood + collectibleEntries.Sum(entry => entry.likelihood);
+        }
+
+        private static void ClearChildren(GameObject parent)
+        {
+            foreach (Transform child in parent.transform)
+                Destroy(child.gameObject);
+        }
+
+        public void GenerateCollectibles(GameObject itemContainer)
+        {
+            ClearChildren(itemContainer);
+
+            var roll = Random.Range(0f, TotalLikelihood());
+
+            roll -= emptinessLikelihood;
+            if (roll <= 0) return;
+
+            foreach (var entry in collectibleEntries)
+            {
+                roll -= entry.likelihood;
+
+                if (roll > 0) continue;
+
+                Instantiate(entry.prefab, itemContainer.transform);
+                break;
             }
         }
     }
