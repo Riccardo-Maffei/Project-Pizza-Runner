@@ -17,6 +17,7 @@
         public static readonly Observable<bool> SpawnedFinishLine = new(false);
         public static readonly Observable<bool> CrossedFinishLine = new(false);
 
+        public static readonly Observable<bool> DamageEnabled = new(true);
         public static readonly Observable<bool> ReversedCommands = new(false);
 
         public static void Reset()
@@ -31,6 +32,8 @@
             TrackLength.SetValue(ProgramData.NewGameTrackLength.GetValue());
             SpawnedFinishLine.SetValue(false);
             CrossedFinishLine.SetValue(false);
+
+            DamageEnabled.SetValue(true);
         }
     }
 }
