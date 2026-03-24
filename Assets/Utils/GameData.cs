@@ -5,6 +5,8 @@
         private const int StartingHp = 2;
 
         public static readonly Observable<float> CurrentTime = new(0);
+        public static readonly Observable<float> TimeLock = new(0);
+
         public static readonly Observable<double> TotalDistance = new(0);
 
         public static readonly Observable<int> Coins = new(0);
@@ -16,6 +18,7 @@
         public static readonly Observable<bool> CrossedFinishLine = new(false);
 
         public static readonly Observable<bool> DamageEnabled = new(true);
+        public static readonly Observable<bool> ReversedCommands = new(false);
 
         public static void Reset()
         {
@@ -26,7 +29,7 @@
             Pizzas.SetValue(0);
             Hp.SetValue(StartingHp);
 
-            TrackLength.SetValue(100);
+            TrackLength.SetValue(ProgramData.NewGameTrackLength.GetValue());
             SpawnedFinishLine.SetValue(false);
             CrossedFinishLine.SetValue(false);
 

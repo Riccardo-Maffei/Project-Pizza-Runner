@@ -5,10 +5,9 @@ namespace utils
     public interface IInteractive
     {
         // for OnCollisionEnter
-        void OnCollision(GameObject player);
+        void OnCollision(GameObject _) {}
 
         // for OnTriggerEnter
-        void OnTrigger(GameObject player);
+        void OnTrigger(GameObject _) {}
     }
 }
-

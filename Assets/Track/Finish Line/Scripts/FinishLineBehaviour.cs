@@ -16,6 +16,7 @@ namespace Track.Finish_Line.Scripts
             var playerBehaviour = player.GetComponent<PlayerBehaviour>();
             if (playerBehaviour != null) playerBehaviour.maxPlayerSpeed = 0;
 
+            ProgramData.TotalCoins.Increase(GameData.Coins.GetValue());
         }
     }
 }
