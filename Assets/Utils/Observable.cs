@@ -57,6 +57,11 @@ namespace utils
             observable.SetValue(observable.GetValue() + value);
         }
 
+        public static void Increase(this Observable<int> observable, int value)
+        {
+            observable.SetValue(observable.GetValue() + value);
+        }
+
         public static void Decrease(this Observable<int> observable, int value)
         {
             observable.SetValue(observable.GetValue() - value);
