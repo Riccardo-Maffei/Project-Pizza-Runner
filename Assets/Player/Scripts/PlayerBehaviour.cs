@@ -70,6 +70,13 @@ namespace Player.Scripts
         private void OnMovementTrigger(InputAction.CallbackContext ctx)
         {
             var moveValue = ctx.ReadValue<Vector2>();
+            
+            if (utils.GameData.ReversedCommands.GetValue())
+            {
+                // Wir drehen den Wert von 'y' einfach um (hoch wird runter, runter wird hoch)
+                moveValue.y *= -1;
+            }
+            
             var newY = _currentPlayerY + moveValue.y * laneHeight;
 
             if (newY >= minPlayerY && newY < _maxPlayerY)
