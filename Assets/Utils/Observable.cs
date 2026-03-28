@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace utils
+namespace Utils
 {
     public class Observable<T>
     {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
-using utils;
+using Utils;
 
 
 namespace Track.Scripts
@@ -39,6 +39,8 @@ namespace Track.Scripts
 
         public void GenerateObstacles(float distanceFromStart)
         {
+            ClearAllCollectibles();
+
             TrackType trackType;
 
             if (distanceFromStart >= GameData.TrackLength.GetValue() && !GameData.SpawnedFinishLine.GetValue())
@@ -108,7 +110,6 @@ namespace Track.Scripts
                         var collectibleContainer = trackItemContainers[obstacleIndex];
 
                         if (trackType != TrackType.Aftermath) GenerateCollectibles(collectibleContainer);
-                        else ClearChildren(collectibleContainer);
                     }
 
                     break;
@@ -121,6 +122,14 @@ namespace Track.Scripts
             return emptinessLikelihood + collectibleEntries.Sum(entry => entry.likelihood);
         }
 
+        private void ClearAllCollectibles()
+        {
+            foreach (var itemContainer in trackItemContainers)
+            {
+                ClearChildren(itemContainer);
+            }
+        }
+
         private static void ClearChildren(GameObject parent)
         {
             foreach (Transform child in parent.transform)
@@ -129,8 +138,6 @@ namespace Track.Scripts
 
         public void GenerateCollectibles(GameObject itemContainer)
         {
-            ClearChildren(itemContainer);
-
             var roll = Random.Range(0f, TotalLikelihood());
 
             roll -= emptinessLikelihood;

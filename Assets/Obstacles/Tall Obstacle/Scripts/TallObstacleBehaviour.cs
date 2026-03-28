@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-using utils;
+using Utils;
 
 
 namespace Obstacles.Tall_Obstacle.Scripts
@@ -21,33 +21,20 @@ namespace Obstacles.Tall_Obstacle.Scripts
                 Debug.Log("HP Reduced! HP Left: " + GameData.Hp.GetValue());
 
                 // Turn damage back on after half a second
-                Invoke(nameof(ResetDamage), 0.5f);
+                Delay.BySeconds(ResetDamage, 0.5f);
             }
 
             // 3. Check if the game has been lost
-            if (GameData.Hp.GetValue() <= 0)
-            {
-                EndGame();
-            }
+            if (GameData.Hp.GetValue() > 0) return;
+
+            Debug.Log("GAME OVER - Lost all lives.");
+            GameHandler.EndGame();
         }
 
         // Helper method to reenable damage
-        private void ResetDamage()
+        private static void ResetDamage()
         {
             GameData.DamageEnabled.SetValue(true);
         }
-
-        private static void EndGame()
-        {
-            Debug.Log("GAME OVER - Lost all lives.");
-
-            #if UNITY_EDITOR
-                UnityEditor.EditorApplication.isPlaying = false;
-            #else
-                Application.Quit();
-            #endif
-        }
-
-        public void OnTrigger(GameObject _) {}
     }
 }

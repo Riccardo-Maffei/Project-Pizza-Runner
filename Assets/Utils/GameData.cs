@@ -1,4 +1,4 @@
-﻿namespace utils
+﻿namespace Utils
 {
     public static class GameData
     {
