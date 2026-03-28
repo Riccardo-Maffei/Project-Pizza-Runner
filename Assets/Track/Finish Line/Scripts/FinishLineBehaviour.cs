@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-using utils;
+using Utils;
 using Player.Scripts;
 
 
@@ -17,6 +17,8 @@ namespace Track.Finish_Line.Scripts
             if (playerBehaviour != null) playerBehaviour.maxPlayerSpeed = 0;
 
             ProgramData.TotalCoins.Increase(GameData.Coins.GetValue());
+
+            Delay.BySeconds(GameHandler.EndGame, 5);
         }
     }
 }
