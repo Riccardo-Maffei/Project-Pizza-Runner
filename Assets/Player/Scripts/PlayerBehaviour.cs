@@ -1,4 +1,6 @@
 using System;
+using System.Linq;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,11 +47,14 @@ namespace Player.Scripts
             // Distance-Tracking for GameData
             GameData.TotalDistance.Increase(Math.Abs(playerRigidbody.position.x - _oldX));
             _oldX = playerRigidbody.position.x;
+            
+            // Calculate multiplier
+            var speedMultiplier = GameData.SpeedMultipliers.Aggregate(1f, (result, next) => result * next);
 
             // Calculate speed
             _currentPlayerSpeed = Mathf.MoveTowards(
                 _currentPlayerSpeed,
-                maxPlayerSpeed,
+                maxPlayerSpeed * speedMultiplier,
                 playerAcceleration * Time.fixedDeltaTime
             );
 

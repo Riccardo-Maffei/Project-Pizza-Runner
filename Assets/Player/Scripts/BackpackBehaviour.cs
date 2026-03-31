@@ -20,7 +20,7 @@ namespace Player.Scripts
             }
 
             _rb.AddTorque(
-                (_rb.rotation < 0 ? torqueMultiplier : -torqueMultiplier) * Time.deltaTime
+                (_rb.rotation < 0 ? torqueMultiplier : -torqueMultiplier) * Time.fixedDeltaTime
             );
         }
     }
