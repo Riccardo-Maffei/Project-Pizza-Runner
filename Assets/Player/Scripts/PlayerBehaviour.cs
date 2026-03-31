@@ -1,4 +1,6 @@
-﻿using System;
+using System;
+using System.Linq;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -45,11 +47,14 @@ namespace Player.Scripts
             // Distance-Tracking for GameData
             GameData.TotalDistance.Increase(Math.Abs(playerRigidbody.position.x - _oldX));
             _oldX = playerRigidbody.position.x;
+            
+            // Calculate multiplier
+            var speedMultiplier = GameData.SpeedMultipliers.Aggregate(1f, (result, next) => result * next);
 
             // Calculate speed
             _currentPlayerSpeed = Mathf.MoveTowards(
                 _currentPlayerSpeed,
-                maxPlayerSpeed,
+                maxPlayerSpeed * speedMultiplier,
                 playerAcceleration * Time.fixedDeltaTime
             );
 
@@ -71,11 +76,8 @@ namespace Player.Scripts
         {
             var moveValue = ctx.ReadValue<Vector2>();
             
-            if (GameData.ReversedCommands.GetValue())
-            {
-                // Wir drehen den Wert von 'y' einfach um (hoch wird runter, runter wird hoch)
-                moveValue.y *= -1;
-            }
+            // Reverse movement axis on wine bottle hit 
+            if (GameData.ReversedCommands.GetValue()) moveValue.y *= -1;
             
             var newY = _currentPlayerY + moveValue.y * laneHeight;
 
