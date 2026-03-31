@@ -18,7 +18,7 @@ namespace Track.Finish_Line.Scripts
 
             ProgramData.TotalCoins.Increase(GameData.Coins.GetValue());
 
-            Delay.BySeconds(GameHandler.EndGame, 5);
+            Delay.BySeconds(GameHandler.LoadMenuScene, 5);
         }
     }
 }

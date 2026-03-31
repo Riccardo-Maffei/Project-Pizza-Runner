@@ -44,19 +44,23 @@ namespace Player.Scripts
 
         private void FixedUpdate()
         {
-            // Distance-Tracking for GameData
-            GameData.TotalDistance.Increase(Math.Abs(playerRigidbody.position.x - _oldX));
-            _oldX = playerRigidbody.position.x;
-            
-            // Calculate multiplier
-            var speedMultiplier = GameData.SpeedMultipliers.Aggregate(1f, (result, next) => result * next);
+            if (GameData.Hp.GetValue() <= 0) _currentPlayerSpeed = 0;
+            else
+            {
+                // Distance-Tracking for GameData
+                GameData.TotalDistance.Increase(Math.Abs(playerRigidbody.position.x - _oldX));
+                _oldX = playerRigidbody.position.x;
+                
+                // Calculate multiplier
+                var speedMultiplier = GameData.SpeedMultipliers.Aggregate(1f, (result, next) => result * next);
 
-            // Calculate speed
-            _currentPlayerSpeed = Mathf.MoveTowards(
-                _currentPlayerSpeed,
-                maxPlayerSpeed * speedMultiplier,
-                playerAcceleration * Time.fixedDeltaTime
-            );
+                // Calculate speed
+                _currentPlayerSpeed = Mathf.MoveTowards(
+                    _currentPlayerSpeed,
+                    maxPlayerSpeed * speedMultiplier,
+                    playerAcceleration * Time.fixedDeltaTime
+                );
+            }
 
             // Refresh position
             var pos = playerRigidbody.position;
@@ -74,6 +78,7 @@ namespace Player.Scripts
 
         private void OnMovementTrigger(InputAction.CallbackContext ctx)
         {
+            if (GameData.Hp.GetValue() <= 0) return;
             var moveValue = ctx.ReadValue<Vector2>();
             
             // Reverse movement axis on wine bottle hit 
