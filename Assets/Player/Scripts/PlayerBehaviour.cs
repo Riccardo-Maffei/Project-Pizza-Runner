@@ -75,6 +75,10 @@ namespace Player.Scripts
         private void OnMovementTrigger(InputAction.CallbackContext ctx)
         {
             var moveValue = ctx.ReadValue<Vector2>();
+            
+            // Reverse movement axis on wine bottle hit 
+            if (GameData.ReversedCommands.GetValue()) moveValue.y *= -1;
+            
             var newY = _currentPlayerY + moveValue.y * laneHeight;
 
             if (newY >= minPlayerY && newY < _maxPlayerY)
