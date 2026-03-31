@@ -1,4 +1,6 @@
-﻿namespace Utils
+﻿using System.Collections.Generic;
+
+namespace Utils
 {
     public static class GameData
     {
@@ -6,6 +8,8 @@
 
         public static readonly Observable<float> CurrentTime = new(0);
         public static readonly Observable<float> TimeLock = new(0);
+        
+        public static readonly List<float> SpeedMultipliers = new ();
 
         public static readonly Observable<double> TotalDistance = new(0);
 
@@ -24,6 +28,8 @@
         {
             CurrentTime.SetValue(0);
             TotalDistance.SetValue(0);
+
+            SpeedMultipliers.Clear();
 
             Coins.SetValue(0);
             Pizzas.SetValue(0);

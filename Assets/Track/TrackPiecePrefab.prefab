@@ -63,6 +63,8 @@ MonoBehaviour:
     likelihood: 2.5
   - prefab: {fileID: 4390458053784488387, guid: df06adaca05691a49ada8550b9ff817d, type: 3}
     likelihood: 1
+  - prefab: {fileID: 1617420018742110046, guid: 94d08980761ce3148ad7e7bfbc5cf6fa, type: 3}
+    likelihood: 1
   finishLinePrefab: {fileID: 1617420018742110046, guid: 220c54a761320b44f97f3145dd54f324, type: 3}
 --- !u!1001 &368748886524062018
 PrefabInstance:
