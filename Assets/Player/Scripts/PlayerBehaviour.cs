@@ -71,11 +71,8 @@ namespace Player.Scripts
         {
             var moveValue = ctx.ReadValue<Vector2>();
             
-            if (GameData.ReversedCommands.GetValue())
-            {
-                // Wir drehen den Wert von 'y' einfach um (hoch wird runter, runter wird hoch)
-                moveValue.y *= -1;
-            }
+            // Reverse movement axis on wine bottle hit 
+            if (GameData.ReversedCommands.GetValue()) moveValue.y *= -1;
             
             var newY = _currentPlayerY + moveValue.y * laneHeight;
 
