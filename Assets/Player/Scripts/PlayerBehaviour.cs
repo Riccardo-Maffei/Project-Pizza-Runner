@@ -1,8 +1,10 @@
 using System;
+using System.Linq;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-using utils;
+using Utils;
 
 namespace Player.Scripts
 {
@@ -40,23 +42,26 @@ namespace Player.Scripts
             _oldX = playerRigidbody.position.x;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             // Distance-Tracking for GameData
             GameData.TotalDistance.Increase(Math.Abs(playerRigidbody.position.x - _oldX));
             _oldX = playerRigidbody.position.x;
+            
+            // Calculate multiplier
+            var speedMultiplier = GameData.SpeedMultipliers.Aggregate(1f, (result, next) => result * next);
 
             // Calculate speed
             _currentPlayerSpeed = Mathf.MoveTowards(
                 _currentPlayerSpeed,
-                maxPlayerSpeed,
-                playerAcceleration * Time.deltaTime
+                maxPlayerSpeed * speedMultiplier,
+                playerAcceleration * Time.fixedDeltaTime
             );
 
             // Refresh position
             var pos = playerRigidbody.position;
-            pos.x += _currentPlayerSpeed * Time.deltaTime;
-            pos.y = Mathf.MoveTowards(pos.y, _currentPlayerY, laneSpeed * Time.deltaTime);
+            pos.x += _currentPlayerSpeed * Time.fixedDeltaTime;
+            pos.y = Mathf.MoveTowards(pos.y, _currentPlayerY, laneSpeed * Time.fixedDeltaTime);
 
             playerRigidbody.MovePosition(pos);
         }
@@ -70,6 +75,10 @@ namespace Player.Scripts
         private void OnMovementTrigger(InputAction.CallbackContext ctx)
         {
             var moveValue = ctx.ReadValue<Vector2>();
+            
+            // Reverse movement axis on wine bottle hit 
+            if (GameData.ReversedCommands.GetValue()) moveValue.y *= -1;
+            
             var newY = _currentPlayerY + moveValue.y * laneHeight;
 
             if (newY >= minPlayerY && newY < _maxPlayerY)
