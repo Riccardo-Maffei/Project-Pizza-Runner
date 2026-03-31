@@ -40,7 +40,7 @@ namespace Player.Scripts
             _oldX = playerRigidbody.position.x;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             // Distance-Tracking for GameData
             GameData.TotalDistance.Increase(Math.Abs(playerRigidbody.position.x - _oldX));
@@ -50,13 +50,13 @@ namespace Player.Scripts
             _currentPlayerSpeed = Mathf.MoveTowards(
                 _currentPlayerSpeed,
                 maxPlayerSpeed,
-                playerAcceleration * Time.deltaTime
+                playerAcceleration * Time.fixedDeltaTime
             );
 
             // Refresh position
             var pos = playerRigidbody.position;
-            pos.x += _currentPlayerSpeed * Time.deltaTime;
-            pos.y = Mathf.MoveTowards(pos.y, _currentPlayerY, laneSpeed * Time.deltaTime);
+            pos.x += _currentPlayerSpeed * Time.fixedDeltaTime;
+            pos.y = Mathf.MoveTowards(pos.y, _currentPlayerY, laneSpeed * Time.fixedDeltaTime);
 
             playerRigidbody.MovePosition(pos);
         }
@@ -70,6 +70,13 @@ namespace Player.Scripts
         private void OnMovementTrigger(InputAction.CallbackContext ctx)
         {
             var moveValue = ctx.ReadValue<Vector2>();
+            
+            if (GameData.ReversedCommands.GetValue())
+            {
+                // Wir drehen den Wert von 'y' einfach um (hoch wird runter, runter wird hoch)
+                moveValue.y *= -1;
+            }
+            
             var newY = _currentPlayerY + moveValue.y * laneHeight;
 
             if (newY >= minPlayerY && newY < _maxPlayerY)
