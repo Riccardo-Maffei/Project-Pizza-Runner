@@ -40,6 +40,7 @@ namespace Utils
             CrossedFinishLine.SetValue(false);
 
             DamageEnabled.SetValue(true);
+            ReversedCommands.SetValue(false);
         }
     }
 }
