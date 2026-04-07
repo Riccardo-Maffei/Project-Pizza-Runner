@@ -93,7 +93,7 @@ namespace UI.Level
 
         private void Update()
         {
-            if (GameData.CrossedFinishLine.GetValue()) return;
+            if (GameData.CrossedFinishLine.GetValue() || GameData.Hp.GetValue() <= 0) return;
 
             var currentLock = GameData.TimeLock.GetValue();
             var nextLock = currentLock - Time.deltaTime;
