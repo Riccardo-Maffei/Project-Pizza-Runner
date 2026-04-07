@@ -4,6 +4,7 @@
     height: 1000%;
     justify-content: space-between;
     align-items: center;
+    -unity-background-scale-mode: scale-and-crop;
 }
 
 .box,
