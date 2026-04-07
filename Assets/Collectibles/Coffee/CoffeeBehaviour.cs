@@ -1,6 +1,6 @@
 using Collectibles.Scripts;
 
-using utils;
+using Utils;
 
 
 namespace Collectibles.Coffee
