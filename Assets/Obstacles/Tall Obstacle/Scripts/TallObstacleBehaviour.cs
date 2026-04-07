@@ -27,8 +27,8 @@ namespace Obstacles.Tall_Obstacle.Scripts
             // 3. Check if the game has been lost
             if (GameData.Hp.GetValue() > 0) return;
 
-            Debug.Log("GAME OVER - Lost all lives.");
-            GameHandler.EndGame();
+            Delay.BySeconds(GameHandler.LoadMenuScene, 5);
+            
         }
 
         // Helper method to reenable damage

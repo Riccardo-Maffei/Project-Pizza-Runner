@@ -7,7 +7,7 @@ using UnityEngine.UIElements;
 using Utils;
 
 
-namespace  UI
+namespace UI.Level
 {
     public class GameUI : MonoBehaviour
     {
@@ -16,6 +16,8 @@ namespace  UI
         private Label _timeField;
         private Label _coinsField;
         private Label _pizzasField;
+        
+        private VisualElement _lossMsgContainer;
         private VisualElement _victoryMsgContainer;
 
         private Action<double> _distanceObserver;
@@ -34,6 +36,8 @@ namespace  UI
             _timeField = root.Q<Label>("TimeField");
             _coinsField = root.Q<Label>("CoinsField");
             _pizzasField = root.Q<Label>("PizzasField");
+            
+            _lossMsgContainer = root.Q<VisualElement>("LossMsgContainer");
             _victoryMsgContainer = root.Q<VisualElement>("VictoryMsgContainer");
 
             GameData.Reset();
@@ -51,7 +55,12 @@ namespace  UI
                 // meter — start
                 : newValue.ToString("000000.00") + "  m";
 
-            _hpObserver = newValue => _hpField.text = string.Join(" ", Enumerable.Repeat("<3", newValue));
+            _hpObserver = newValue =>
+            {
+                _hpField.text = string.Join(" ", Enumerable.Repeat("<3", newValue));
+                _lossMsgContainer.style.display = newValue <= 0 ? DisplayStyle.Flex : DisplayStyle.None;
+            };
+            
             _timeObserver = newValue => _timeField.text = TimeSpan.FromSeconds(newValue).ToString(@"hh\:mm\:ss\.fff");
             _coinsObserver = newValue => _coinsField.text = newValue.ToString();
             _pizzasObserver = newValue => _pizzasField.text = newValue.ToString();

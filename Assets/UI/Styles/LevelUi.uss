@@ -6,7 +6,8 @@
     align-items: center;
 }
 
-.box, .h_box {
+.box,
+.h_box {
     border-width: 4px;
     border-radius: 20px;
     border-color: rgb(0, 0, 205);
@@ -53,4 +54,12 @@
     -unity-text-align: upper-center;
     padding: 2px;
     margin: 2px;
+}
+
+.v_box {
+    flex-grow: 0;
+    flex-direction: column;
+    align-self: center;
+    width: 80%;
+    justify-content: center;
 }
