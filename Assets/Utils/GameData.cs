@@ -23,6 +23,7 @@ namespace Utils
 
         public static readonly Observable<bool> DamageEnabled = new(true);
         public static readonly Observable<bool> ReversedCommands = new(false);
+        public static readonly Observable<bool> IsSlipping = new(false);
 
         public static void Reset()
         {
@@ -41,6 +42,7 @@ namespace Utils
 
             DamageEnabled.SetValue(true);
             ReversedCommands.SetValue(false);
+            IsSlipping.SetValue(false);
         }
     }
 }
