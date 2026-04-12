@@ -22,6 +22,7 @@ namespace Player.Scripts
         public float minPlayerY = 0.5f;
         private float _maxPlayerY;
         private float _currentPlayerY;
+        private InputAction _fireAction; // Neu für die Taste
 
         [Header("Movement Settings")]
         public float minPlayerSpeed = 1;
@@ -38,6 +39,7 @@ namespace Player.Scripts
 
             _moveAction = InputSystem.actions.FindAction("Move");
             _moveAction.started += OnMovementTrigger;
+            _fireAction = InputSystem.actions.FindAction("Attack");
 
             _oldX = playerRigidbody.position.x;
         }
@@ -68,6 +70,12 @@ namespace Player.Scripts
             pos.y = Mathf.MoveTowards(pos.y, _currentPlayerY, laneSpeed * Time.fixedDeltaTime);
 
             playerRigidbody.MovePosition(pos);
+            
+            // Nur wenn wir im Ziel stehen, können wir schießen (Phase 2, Punkt d)
+            if (Utils.GameData.CrossedFinishLine.GetValue() && _fireAction != null && _fireAction.WasPressedThisFrame())
+            {
+                ExecuteRaycastShoot();
+            }
         }
 
         private void OnDestroy()
@@ -99,5 +107,19 @@ namespace Player.Scripts
         {
             other.gameObject.GetComponent<IInteractive>()?.OnTrigger(gameObject);
         }
+        
+        private void ExecuteRaycastShoot()
+        {
+            // Der Strahl geht 20 Einheiten nach rechts
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 20f);
+            Debug.DrawRay(transform.position, Vector2.right * 20f, Color.red, 0.5f); // Sichtbar für die Abgabe
+
+            if (hit.collider != null && hit.collider.CompareTag("Enemy"))
+            {
+                // Wir zerstören die Spinne über ihre eigene Methode
+                hit.collider.GetComponent<Enemy.Spider.SpiderBehaviour>()?.OnHit();
+            }
+        }
+        
     }
 }
