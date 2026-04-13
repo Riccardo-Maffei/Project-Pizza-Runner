@@ -27,6 +27,8 @@ namespace UI.Level
         private Action<int> _pizzasObserver;
         private Action<bool> _victoryObserver;
 
+        private Action<GameState> _stateObserver;
+
         private void OnEnable()
         {
             var root = GetComponent<UIDocument>().rootVisualElement;
@@ -39,8 +41,6 @@ namespace UI.Level
             
             _lossMsgContainer = root.Q<VisualElement>("LossMsgContainer");
             _victoryMsgContainer = root.Q<VisualElement>("VictoryMsgContainer");
-
-            GameData.Reset();
 
             // Measurement units reached after x considering max speed of 10m/s
             _distanceObserver = newValue => _distanceField.text =
@@ -58,27 +58,42 @@ namespace UI.Level
             _hpObserver = newValue =>
             {
                 _hpField.text = string.Join(" ", Enumerable.Repeat("<3", newValue));
-                _lossMsgContainer.style.display = newValue <= 0 ? DisplayStyle.Flex : DisplayStyle.None;
+                
+                if (newValue <= 0) GameData.CurrentState.SetValue(GameState.Lost);
             };
             
             _timeObserver = newValue => _timeField.text = TimeSpan.FromSeconds(newValue).ToString(@"hh\:mm\:ss\.fff");
             _coinsObserver = newValue => _coinsField.text = newValue.ToString();
             _pizzasObserver = newValue => _pizzasField.text = newValue.ToString();
-            _victoryObserver = newValue => _victoryMsgContainer.style.display = newValue ? DisplayStyle.Flex : DisplayStyle.None;
 
-            _distanceObserver(GameData.TotalDistance.GetValue());
-            _hpObserver(GameData.Hp.GetValue());
-            _timeObserver(GameData.CurrentTime.GetValue());
-            _coinsObserver(GameData.Coins.GetValue());
-            _pizzasObserver(GameData.Pizzas.GetValue());
-            _victoryObserver(GameData.CrossedFinishLine.GetValue());
+            _stateObserver = newValue =>
+            {
+                _lossMsgContainer.style.display = newValue == GameState.Lost ? DisplayStyle.Flex : DisplayStyle.None;
+                _victoryMsgContainer.style.display = newValue == GameState.Won ? DisplayStyle.Flex : DisplayStyle.None;
+
+                switch (newValue)
+                {
+                    case GameState.Won:
+                        ProgramData.TotalCoins.Increase(GameData.Coins.GetValue());
+                        break;
+                    case GameState.Lost:
+                        ProgramData.TotalCoins.Increase(GameData.Coins.GetValue());
+                        Delay.BySeconds(GameHandler.LoadMenuScene, 5);
+                        break;
+                    case GameState.Running:
+                    default:
+                        break;
+                }
+            };
 
             GameData.TotalDistance.Subscribe(_distanceObserver);
             GameData.Hp.Subscribe(_hpObserver);
             GameData.CurrentTime.Subscribe(_timeObserver);
             GameData.Coins.Subscribe(_coinsObserver);
             GameData.Pizzas.Subscribe(_pizzasObserver);
-            GameData.CrossedFinishLine.Subscribe(_victoryObserver);
+            GameData.CurrentState.Subscribe(_stateObserver);
+            
+            GameData.Reset();
         }
 
         private void OnDisable()
@@ -88,7 +103,7 @@ namespace UI.Level
             GameData.CurrentTime.Unsubscribe(_timeObserver);
             GameData.Coins.Unsubscribe(_coinsObserver);
             GameData.Pizzas.Unsubscribe(_pizzasObserver);
-            GameData.CrossedFinishLine.Unsubscribe(_victoryObserver);
+            GameData.CurrentState.Unsubscribe(_stateObserver);
         }
 
         private void Update()

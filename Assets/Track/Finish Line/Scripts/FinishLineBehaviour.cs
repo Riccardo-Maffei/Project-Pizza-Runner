@@ -25,10 +25,6 @@ namespace Track.Finish_Line.Scripts
             {
                 playerBehaviour.maxPlayerSpeed = 0;
             }
-
-            ProgramData.TotalCoins.Increase(GameData.Coins.GetValue());
-
-            Delay.BySeconds(GameHandler.LoadMenuScene, 5);
         }
     }
 }

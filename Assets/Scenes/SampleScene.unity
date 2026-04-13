@@ -2431,11 +2431,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::SpiderSpawner
   spiderPrefab: {fileID: 2682156274152456769, guid: 3591815a3d6bb534f953dc057bc115f6, type: 3}
   spawnRate: 0.5
+  totalSpawnCount: 20
   spawnDistanceX: 10
   lanesY:
   - 0.5
   - 1.5
   - 2.5
+  playerTransform: {fileID: 60608755}
 --- !u!4 &854717772
 Transform:
   m_ObjectHideFlags: 0
@@ -4739,7 +4741,7 @@ PrefabInstance:
       objectReference: {fileID: 851577614}
     - target: {fileID: 3294180576415475574, guid: d5f621c4635fc084aafd70e633e39e16, type: 3}
       propertyPath: m_VersionIndex
-      value: 517
+      value: 547
       objectReference: {fileID: 0}
     - target: {fileID: 8699603288742723328, guid: d5f621c4635fc084aafd70e633e39e16, type: 3}
       propertyPath: m_LocalPosition.x

@@ -9,5 +9,8 @@ namespace Utils
 
         // for OnTriggerEnter
         void OnTrigger(GameObject _) {}
+        
+        // for RayCasting
+        void OnRayCastHit(GameObject _) {}
     }
 }

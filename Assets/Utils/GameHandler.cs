@@ -5,8 +5,8 @@ namespace Utils
 {
     public static class GameHandler
     {
-        const int MenuSceneIndex = 0;
-        const int GameSceneIndex = 1;
+        private const int MenuSceneIndex = 0;
+        private const int GameSceneIndex = 1;
         
         public static void LoadMenuScene()
         {

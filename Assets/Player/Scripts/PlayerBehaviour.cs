@@ -28,6 +28,11 @@ namespace Player.Scripts
         private float _currentPlayerSpeed;
         private float _oldX;
 
+        [Header("Shooting Settings")]
+        public Transform shotOrigin;
+        public float shotRange = 20f;
+        public bool blockEarlyShooting = true;
+        
         private void Start()
         {
             _currentPlayerSpeed = minPlayerSpeed;
@@ -79,6 +84,14 @@ namespace Player.Scripts
                 _currentPlayerY = newY;
         }
 
+        protected void OnAttack(InputValue value)
+        {
+            // Block if player is not over the line and early shots are disabled
+            if (!GameData.CrossedFinishLine.GetValue() && blockEarlyShooting) return;
+            
+            ExecuteRaycastShoot();
+        }
+
         private void OnCollisionEnter2D(Collision2D collision)
         {
             collision.gameObject.GetComponent<IInteractive>()?.OnCollision(gameObject);
@@ -87,6 +100,17 @@ namespace Player.Scripts
         private void OnTriggerEnter2D(Collider2D other)
         {
             other.gameObject.GetComponent<IInteractive>()?.OnTrigger(gameObject);
+        }
+        
+        private void ExecuteRaycastShoot()
+        {
+            // Cast a ray to the right
+            var hit = Physics2D.Raycast(shotOrigin.position, Vector2.right, shotRange);
+            
+            // Display ray (only in scene view / if gizmos have been turned on)
+            Debug.DrawRay(shotOrigin.position, Vector2.right * shotRange, Color.white, 0.5f);
+
+            if (hit) hit.collider.GetComponent<IInteractive>()?.OnRayCastHit(gameObject);
         }
     }
 }

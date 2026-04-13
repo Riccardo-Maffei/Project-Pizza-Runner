@@ -23,12 +23,6 @@ namespace Obstacles.Tall_Obstacle.Scripts
                 // Turn damage back on after half a second
                 Delay.BySeconds(ResetDamage, 0.5f);
             }
-
-            // 3. Check if the game has been lost
-            if (GameData.Hp.GetValue() > 0) return;
-
-            Delay.BySeconds(GameHandler.LoadMenuScene, 5);
-            
         }
 
         // Helper method to reenable damage
