@@ -10,8 +10,6 @@ namespace Player.Scripts
 {
     public class PlayerBehaviour : MonoBehaviour
     {
-        private InputAction _moveAction;
-
         [Header("Physics & Components")]
         public Rigidbody2D playerRigidbody;
 
@@ -35,9 +33,6 @@ namespace Player.Scripts
             _currentPlayerSpeed = minPlayerSpeed;
             _currentPlayerY = minPlayerY;
             _maxPlayerY = minPlayerY + laneHeight * laneCount;
-
-            _moveAction = InputSystem.actions.FindAction("Move");
-            _moveAction.started += OnMovementTrigger;
 
             _oldX = playerRigidbody.position.x;
         }
@@ -70,16 +65,10 @@ namespace Player.Scripts
             playerRigidbody.MovePosition(pos);
         }
 
-        private void OnDestroy()
-        {
-            if (_moveAction != null)
-                _moveAction.started -= OnMovementTrigger;
-        }
-
-        private void OnMovementTrigger(InputAction.CallbackContext ctx)
+        protected void OnMove(InputValue value)
         {
             if (GameData.Hp.GetValue() <= 0) return;
-            var moveValue = ctx.ReadValue<Vector2>();
+            var moveValue = value.Get<Vector2>();
             
             // Reverse movement axis on wine bottle hit 
             if (GameData.ReversedCommands.GetValue()) moveValue.y *= -1;
