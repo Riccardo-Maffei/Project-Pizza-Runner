@@ -75,9 +75,9 @@ namespace UI.Level
                 {
                     case GameState.Won:
                         ProgramData.TotalCoins.Increase(GameData.Coins.GetValue());
+                        Delay.BySeconds(GameHandler.LoadMenuScene, 5);
                         break;
                     case GameState.Lost:
-                        ProgramData.TotalCoins.Increase(GameData.Coins.GetValue());
                         Delay.BySeconds(GameHandler.LoadMenuScene, 5);
                         break;
                     case GameState.Running:
