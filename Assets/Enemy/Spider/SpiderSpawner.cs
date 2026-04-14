@@ -22,10 +22,13 @@ namespace Enemy.Spider
         public Transform playerTransform;
         
         private Action<bool> _crossObserver;
+        private Action<int> _counterObserver;
 
         private void Start()
         {
             _currentSpawnCount = 0;
+            GameData.ActiveSpiderCounter.SetValue(0);
+            
             _crossObserver = crossed =>
             {
                 if (!crossed) return;
@@ -34,12 +37,19 @@ namespace Enemy.Spider
                 SpawnSpider();
             };
 
+            _counterObserver = counter =>
+            {
+                if (counter == 0) GameData.CurrentState.SetValue(GameState.Won);
+            };
+
             GameData.CrossedFinishLine.Subscribe(_crossObserver);
+            GameData.ActiveSpiderCounter.Subscribe(_counterObserver);
         }
 
         private void OnDestroy()
         {
             GameData.CrossedFinishLine.Unsubscribe(_crossObserver);
+            GameData.ActiveSpiderCounter.Unsubscribe(_counterObserver);
         }
 
         private void SpawnSpider()
@@ -54,7 +64,9 @@ namespace Enemy.Spider
             var spawnPos = new Vector3(spawnX, randomY, 0f);
             
             Instantiate(spiderPrefab, spawnPos, Quaternion.identity);
+            
             _currentSpawnCount++;
+            GameData.ActiveSpiderCounter.Increase(1);
             
             if (_currentSpawnCount < totalSpawnCount) Delay.BySeconds(SpawnSpider, spawnRate);
         }

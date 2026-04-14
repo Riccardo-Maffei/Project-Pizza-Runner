@@ -29,21 +29,28 @@ namespace Enemy.Spider
             
             if (_mainCam != null && transform.position.x < _mainCam.transform.position.x - despawnDistance)
             {
-                Destroy(gameObject);
+                Unalive();
             }
+        }
+
+        private void Unalive()
+        {
+            GameData.ActiveSpiderCounter.Decrease(1);
+            Destroy(gameObject);
         }
 
         public void OnCollision(GameObject other)
         {
             Debug.Log("Player was bitten");
             if (GameData.Hp.GetValue() > 0) GameData.Hp.Decrease(1);
-            Destroy(gameObject);
+            
+            Unalive();
         }
         
         public void OnRayCastHit(GameObject other)
         {
             Debug.Log("Spider killed by raycast!");
-            Destroy(gameObject);
+            Unalive();
         }
     }
 }
