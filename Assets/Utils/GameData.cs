@@ -2,6 +2,13 @@
 
 namespace Utils
 {
+    public enum GameState
+    {
+        Running,
+        Lost,
+        Won
+    }
+    
     public static class GameData
     {
         private const int StartingHp = 2;
@@ -17,12 +24,15 @@ namespace Utils
         public static readonly Observable<int> Pizzas = new(0);
         public static readonly Observable<int> Hp = new(StartingHp);
 
-        public static readonly Observable<float> TrackLength = new(100);
+        public static readonly Observable<float> TrackLength = new(10);
         public static readonly Observable<bool> SpawnedFinishLine = new(false);
         public static readonly Observable<bool> CrossedFinishLine = new(false);
+        
+        public static readonly Observable<GameState> CurrentState = new(GameState.Running);
 
         public static readonly Observable<bool> DamageEnabled = new(true);
         public static readonly Observable<bool> ReversedCommands = new(false);
+        public static readonly Observable<bool> IsSlipping = new(false);
 
         public static void Reset()
         {
@@ -38,9 +48,12 @@ namespace Utils
             TrackLength.SetValue(ProgramData.NewGameTrackLength.GetValue());
             SpawnedFinishLine.SetValue(false);
             CrossedFinishLine.SetValue(false);
+            
+            CurrentState.SetValue(GameState.Running);
 
             DamageEnabled.SetValue(true);
             ReversedCommands.SetValue(false);
+            IsSlipping.SetValue(false);
         }
     }
 }

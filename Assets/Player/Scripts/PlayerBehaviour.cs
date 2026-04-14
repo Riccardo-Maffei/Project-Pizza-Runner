@@ -10,8 +10,6 @@ namespace Player.Scripts
 {
     public class PlayerBehaviour : MonoBehaviour
     {
-        private InputAction _moveAction;
-
         [Header("Physics & Components")]
         public Rigidbody2D playerRigidbody;
 
@@ -22,7 +20,6 @@ namespace Player.Scripts
         public float minPlayerY = 0.5f;
         private float _maxPlayerY;
         private float _currentPlayerY;
-        private InputAction _fireAction; // Neu für die Taste
 
         [Header("Movement Settings")]
         public float minPlayerSpeed = 1;
@@ -31,15 +28,16 @@ namespace Player.Scripts
         private float _currentPlayerSpeed;
         private float _oldX;
 
+        [Header("Shooting Settings")]
+        public Transform shotOrigin;
+        public float shotRange = 20f;
+        public bool blockEarlyShooting = true;
+        
         private void Start()
         {
             _currentPlayerSpeed = minPlayerSpeed;
             _currentPlayerY = minPlayerY;
             _maxPlayerY = minPlayerY + laneHeight * laneCount;
-
-            _moveAction = InputSystem.actions.FindAction("Move");
-            _moveAction.started += OnMovementTrigger;
-            _fireAction = InputSystem.actions.FindAction("Attack");
 
             _oldX = playerRigidbody.position.x;
         }
@@ -70,24 +68,12 @@ namespace Player.Scripts
             pos.y = Mathf.MoveTowards(pos.y, _currentPlayerY, laneSpeed * Time.fixedDeltaTime);
 
             playerRigidbody.MovePosition(pos);
-            
-            // Nur wenn wir im Ziel stehen, können wir schießen (Phase 2, Punkt d)
-            if (Utils.GameData.CrossedFinishLine.GetValue() && _fireAction != null && _fireAction.WasPressedThisFrame())
-            {
-                ExecuteRaycastShoot();
-            }
         }
 
-        private void OnDestroy()
-        {
-            if (_moveAction != null)
-                _moveAction.started -= OnMovementTrigger;
-        }
-
-        private void OnMovementTrigger(InputAction.CallbackContext ctx)
+        protected void OnMove(InputValue value)
         {
             if (GameData.Hp.GetValue() <= 0) return;
-            var moveValue = ctx.ReadValue<Vector2>();
+            var moveValue = value.Get<Vector2>();
             
             // Reverse movement axis on wine bottle hit 
             if (GameData.ReversedCommands.GetValue()) moveValue.y *= -1;
@@ -96,6 +82,14 @@ namespace Player.Scripts
 
             if (newY >= minPlayerY && newY < _maxPlayerY)
                 _currentPlayerY = newY;
+        }
+
+        protected void OnAttack(InputValue value)
+        {
+            // Block if player is not over the line and early shots are disabled
+            if (!GameData.CrossedFinishLine.GetValue() && blockEarlyShooting) return;
+            
+            ExecuteRaycastShoot();
         }
 
         private void OnCollisionEnter2D(Collision2D collision)
@@ -110,16 +104,13 @@ namespace Player.Scripts
         
         private void ExecuteRaycastShoot()
         {
-            // Der Strahl geht 20 Einheiten nach rechts
-            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.right, 20f);
-            Debug.DrawRay(transform.position, Vector2.right * 20f, Color.red, 0.5f); // Sichtbar für die Abgabe
+            // Cast a ray to the right
+            var hit = Physics2D.Raycast(shotOrigin.position, Vector2.right, shotRange);
+            
+            // Display ray (only in scene view / if gizmos have been turned on)
+            Debug.DrawRay(shotOrigin.position, Vector2.right * shotRange, Color.white, 0.5f);
 
-            if (hit.collider != null && hit.collider.CompareTag("Enemy"))
-            {
-                // Wir zerstören die Spinne über ihre eigene Methode
-                hit.collider.GetComponent<Enemy.Spider.SpiderBehaviour>()?.OnHit();
-            }
+            if (hit) hit.collider.GetComponent<IInteractive>()?.OnRayCastHit(gameObject);
         }
-        
     }
 }

@@ -12,12 +12,15 @@ namespace Obstacles.WaterPuddle
         public void OnTrigger(GameObject _)
         {
             GameData.SpeedMultipliers.Add(playerSpeedMultiplier);
+            GameData.IsSlipping.SetValue(true);
+            
             Delay.BySeconds(RemoveSlowdown, multiplierDuration);
         }
 
         private void RemoveSlowdown()
         {
             GameData.SpeedMultipliers.Remove(playerSpeedMultiplier);
+            GameData.IsSlipping.SetValue(false);
         }
     }
 }

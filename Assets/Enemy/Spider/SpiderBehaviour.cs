@@ -25,32 +25,22 @@ namespace Enemy.Spider
         private void FixedUpdate()
         {
             // movement left
-            transform.Translate(Vector2.left * speed * Time.fixedDeltaTime);
+            transform.Translate(speed * Time.fixedDeltaTime * Vector2.left);
             
             if (_mainCam != null && transform.position.x < _mainCam.transform.position.x - despawnDistance)
             {
                 Destroy(gameObject);
             }
         }
-        
-        public void OnTrigger(GameObject other)
-        {
-            // Logic, if the player touches the spider
-            if (other.CompareTag("Player")) 
-            {
-                Debug.Log("Bite! Spinne hat den Spieler erwischt.");
-                // Hier Schaden-Logik: other.GetComponent<Health>().Damage(1);
-                
-                Destroy(gameObject); // Spinne verschwindet nach Biss
-            }
-        }
 
         public void OnCollision(GameObject other)
         {
-            OnTrigger(other);
+            Debug.Log("Player was bitten");
+            if (GameData.Hp.GetValue() > 0) GameData.Hp.Decrease(1);
+            Destroy(gameObject);
         }
         
-        public void OnHit()
+        public void OnRayCastHit(GameObject other)
         {
             Debug.Log("Spider killed by raycast!");
             Destroy(gameObject);
