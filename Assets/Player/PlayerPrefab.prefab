@@ -195,6 +195,8 @@ MonoBehaviour:
   minPlayerSpeed: 1
   maxPlayerSpeed: 10
   playerAcceleration: 5
+  shotOrigin: {fileID: 7810739368257381697}
+  shotRange: 20
 --- !u!50 &8360589843626407839
 Rigidbody2D:
   serializedVersion: 5
@@ -633,14 +635,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerModel
       objectReference: {fileID: 0}
-    - target: {fileID: 4072372699904354121, guid: f07d17d5ffd4d6b4bad667103b38fe91, type: 3}
-      propertyPath: m_ConnectedRigidBody
-      value: 
-      objectReference: {fileID: 8360589843626407839}
-    - target: {fileID: 8378202611805303117, guid: f07d17d5ffd4d6b4bad667103b38fe91, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 8450900052383274945, guid: f07d17d5ffd4d6b4bad667103b38fe91, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -689,5 +683,10 @@ PrefabInstance:
 --- !u!4 &4155718645545034730 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8450900052383274945, guid: f07d17d5ffd4d6b4bad667103b38fe91, type: 3}
+  m_PrefabInstance: {fileID: 5542722527573275691}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &7810739368257381697 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2346066267916243306, guid: f07d17d5ffd4d6b4bad667103b38fe91, type: 3}
   m_PrefabInstance: {fileID: 5542722527573275691}
   m_PrefabAsset: {fileID: 0}

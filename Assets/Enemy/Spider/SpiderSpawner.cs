@@ -1,52 +1,74 @@
-using UnityEngine;
 using Utils;
+using System;
+using UnityEngine;
 
-public class SpiderSpawner : MonoBehaviour
+using Random = UnityEngine.Random;
+
+
+namespace Enemy.Spider
 {
-    public GameObject spiderPrefab;
-    public float spawnRate = 0.3f; // Rate for action
-    public float spawnDistanceX = 15f; 
-    public float[] lanesY = { 0.5f, 1.5f, 2.5f }; 
-
-    private float _nextSpawnTime;
-    private bool _hasStartedSpawning = false;
-    private Camera _mainCam;
-
-    void Start()
+    public class SpiderSpawner : MonoBehaviour
     {
-        _mainCam = Camera.main;
-    }
-
-    void Update()
-    {
-        if (GameData.CrossedFinishLine.GetValue())
-        {
-            Debug.Log("Spawner: Ziellinie erkannt!");
-            // set the Time on now, so that the first spider comes.
-            if (!_hasStartedSpawning)
-            {
-                _nextSpawnTime = Time.time; 
-                _hasStartedSpawning = true;
-                Debug.Log("Ziellinie erreicht! Spawning starts now.");
-            }
-
-            if (Time.time >= _nextSpawnTime)
-            {
-                SpawnSpider();
-                _nextSpawnTime = Time.time + spawnRate;
-            }
-        }
-    }
-
-    void SpawnSpider()
-    {
-        if (spiderPrefab == null || _mainCam == null) return;
-
-        float randomY = lanesY[Random.Range(0, lanesY.Length)];
-        // spawn on the right side
-        float spawnX = _mainCam.transform.position.x + spawnDistanceX;
+        public GameObject spiderPrefab;
         
-        Vector3 spawnPos = new Vector3(spawnX, randomY, 0f);
-        Instantiate(spiderPrefab, spawnPos, Quaternion.identity);
+        public float spawnRate = 0.3f;
+
+        public int totalSpawnCount = 15;
+        private int _currentSpawnCount;
+        
+        public float spawnDistanceX = 15f; 
+        public float[] lanesY = { 0.5f, 1.5f, 2.5f }; 
+
+        public Transform playerTransform;
+        
+        private Action<bool> _crossObserver;
+        private Action<int> _counterObserver;
+
+        private void Start()
+        {
+            _currentSpawnCount = 0;
+            GameData.ActiveSpiderCounter.SetValue(0);
+            
+            _crossObserver = crossed =>
+            {
+                if (!crossed) return;
+
+                Debug.Log("Spawner: Player reached finish line!");
+                SpawnSpider();
+            };
+
+            _counterObserver = counter =>
+            {
+                if (counter == 0) GameData.CurrentState.SetValue(GameState.Won);
+            };
+
+            GameData.CrossedFinishLine.Subscribe(_crossObserver);
+            GameData.ActiveSpiderCounter.Subscribe(_counterObserver);
+        }
+
+        private void OnDestroy()
+        {
+            GameData.CrossedFinishLine.Unsubscribe(_crossObserver);
+            GameData.ActiveSpiderCounter.Unsubscribe(_counterObserver);
+        }
+
+        private void SpawnSpider()
+        {
+            if (playerTransform == null) return;
+            
+            var randomY = lanesY[Random.Range(0, lanesY.Length)];
+            
+            // spawn on the right side
+            var spawnX = playerTransform.position.x + spawnDistanceX;
+            
+            var spawnPos = new Vector3(spawnX, randomY, 0f);
+            
+            Instantiate(spiderPrefab, spawnPos, Quaternion.identity);
+            
+            _currentSpawnCount++;
+            GameData.ActiveSpiderCounter.Increase(1);
+            
+            if (_currentSpawnCount < totalSpawnCount) Delay.BySeconds(SpawnSpider, spawnRate);
+        }
     }
 }
