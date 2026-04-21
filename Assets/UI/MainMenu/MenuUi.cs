@@ -1,6 +1,7 @@
 using System;
 
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
 
 using Utils;
@@ -29,12 +30,25 @@ namespace UI.MainMenu
         private void OnEnable()
         {
             var root = GetComponent<UIDocument>().rootVisualElement;
-            
+
             _startGameButton = root.Q<Button>("StartGameButton");
             _exitGameButton = root.Q<Button>("ExitGameButton");
 
             _startGameButton.clicked += GameHandler.LoadGameScene;
             _exitGameButton.clicked += GameHandler.EndGame;
+        }
+
+        private void Update()
+        {
+            if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            {
+                GameHandler.LoadGameScene();
+            }
+
+            else if (Keyboard.current.escapeKey.wasPressedThisFrame)
+            {
+                GameHandler.EndGame();
+            }
         }
     }
 }
