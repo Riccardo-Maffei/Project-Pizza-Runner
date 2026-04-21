@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectibles.Spider.SpiderBehaviour
   speed: 5
-  despawnDistance: 1
+  despawnDistance: 10
 --- !u!96 &8665716931351521751
 TrailRenderer:
   serializedVersion: 4
