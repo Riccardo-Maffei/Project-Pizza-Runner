@@ -1,8 +1,9 @@
 using System;
+using System.Collections;
 
 using UnityEngine;
-using UnityEngine.InputSystem;
 using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
 
 using Utils;
 
@@ -38,17 +39,32 @@ namespace UI.MainMenu
             _exitGameButton.clicked += GameHandler.EndGame;
         }
 
-        private void Update()
+        protected void OnStartGameShortcut(InputValue value)
         {
-            if (Keyboard.current.spaceKey.wasPressedThisFrame)
-            {
-                GameHandler.LoadGameScene();
-            }
+            StartCoroutine(LoadGameNextFrame());
+        }
 
-            else if (Keyboard.current.escapeKey.wasPressedThisFrame)
-            {
-                GameHandler.EndGame();
-            }
+        protected void OnExitGameShortcut(InputValue value)
+        {
+            StartCoroutine(ExitGameNextFrame());
+        }
+
+        private static IEnumerator LoadGameNextFrame()
+        {
+            yield return null;
+            GameHandler.LoadGameScene();
+        }
+
+        private static IEnumerator ExitGameNextFrame()
+        {
+            yield return null;
+            GameHandler.EndGame();
+        }
+
+        private void OnDisable()
+        {
+            _startGameButton.clicked -= GameHandler.LoadGameScene;
+            _exitGameButton.clicked -= GameHandler.EndGame;
         }
     }
 }

@@ -1,0 +1,77 @@
+{
+    "version": 1,
+    "name": "MainMenuInputSystem",
+    "maps": [
+        {
+            "name": "MainMenu",
+            "id": "8e906750-531d-4e87-a1fc-6a1791516693",
+            "actions": [
+                {
+                    "name": "StartGameShortcut",
+                    "type": "Button",
+                    "id": "7ff6d28f-90cf-444c-83d8-6b8660b446f0",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "ExitGameShortcut",
+                    "type": "Button",
+                    "id": "4c9a9f63-f5dd-4f58-b3db-276402c01030",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e302616e-0bea-40b5-80b6-03f257dead18",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartGameShortcut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "a6f91584-83bb-4ed8-9dfe-60b2c1495871",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "StartGameShortcut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "41e3fc77-e9d8-4329-a0b1-eb74753387b7",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ExitGameShortcut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "2d9ea9e0-58c4-4d83-9a59-a84215bba2ce",
+                    "path": "<Keyboard>/delete",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "ExitGameShortcut",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}
