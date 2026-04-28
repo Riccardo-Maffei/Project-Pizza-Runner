@@ -65,12 +65,13 @@ namespace UI.MainMenu
 
         protected void OnStartGameShortcut(InputValue value)
         {
-            StartCoroutine(LoadGameNextFrame());
+            if (!_tutorialOpen.GetValue()) StartCoroutine(LoadGameNextFrame());
         }
 
         protected void OnExitGameShortcut(InputValue value)
         {
-            StartCoroutine(ExitGameNextFrame());
+            if (!_tutorialOpen.GetValue()) StartCoroutine(ExitGameNextFrame());
+            else _tutorialOpen.SetValue(false);
         }
 
         private static IEnumerator LoadGameNextFrame()
