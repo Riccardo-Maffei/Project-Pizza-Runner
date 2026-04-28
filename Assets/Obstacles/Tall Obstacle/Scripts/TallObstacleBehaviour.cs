@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Player.Scripts;
+using UnityEngine;
 using Utils;
 
 namespace Obstacles.Tall_Obstacle.Scripts
@@ -15,7 +16,8 @@ namespace Obstacles.Tall_Obstacle.Scripts
             {
                Instantiate(hitParticlesPrefab, transform.position, Quaternion.identity);
             }
-
+            Destroy(gameObject);
+            
             // Briefly block damage
             GameData.DamageEnabled.SetValue(false);
 
