@@ -1,14 +1,49 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Styles/LevelUi.uss?fileID=7433441132597879392&amp;guid=9703855db32c19b4782eebd44a61dd4b&amp;type=3#LevelUi"/>
-    <ui:VisualElement name="UIContainer" class="v_box" style="justify-content: center; background-color: rgb(79, 28, 28); background-image: url(&quot;project://database/Assets/Scenes/MainMenuBackground.png?fileID=2800000&amp;guid=06a4b13a3dd6f2c41b56fc537da1768b&amp;type=3#MainMenuBackground&quot;); background-repeat: no-repeat no-repeat;">
-        <ui:VisualElement name="TitleContainer" class="h_box" style="justify-content: center; flex-direction: column; width: auto;">
-            <ui:Label text="Project Pizza Runner" style="font-size: 15px; -unity-font-style: bold; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;"/>
+    <ui:VisualElement name="UIContainer" style="justify-content: center; background-color: rgb(79, 28, 28); background-image: url(&quot;project://database/Assets/Scenes/MainMenuBackground.png?fileID=2800000&amp;guid=06a4b13a3dd6f2c41b56fc537da1768b&amp;type=3#MainMenuBackground&quot;); background-repeat: no-repeat no-repeat;">
+        <ui:VisualElement name="MainMenuContainer" class="v_box" style="justify-content: center; flex-direction: column; width: auto; display: flex;">
+            <ui:Label text="Project Pizza Runner" name="GameTitle" style="font-size: 15px; -unity-font-style: bold; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;"/>
             <ui:Button text="Start game" name="StartGameButton" class="box"/>
+            <ui:Button text="Tutorial" name="OpenTutorialButton" class="box"/>
             <ui:Button text="Exit game" name="ExitGameButton" class="box"/>
             <ui:VisualElement name="ShortcutContainer" style="flex-grow: initial; width: auto; height: auto; align-self: center; justify-content: flex-start; flex-shrink: 1; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
                 <ui:Label text="To start the game, press [space] or [enter]" name="Shortcuts"/>
                 <ui:Label text="To exit the game, press [esc] or [delete]" name="Shortcuts"/>
             </ui:VisualElement>
+        </ui:VisualElement>
+        <ui:VisualElement name="TutorialContainer" enabled="true" class="v_box" style="justify-content: center; flex-direction: column; width: auto; display: none; align-items: stretch; align-content: flex-start;">
+            <ui:VisualElement name="GameScope" style="flex-grow: 1; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px;">
+                <ui:Label text="The goal of the game is the collection of as many Pizzas and Coins as possible.&#10;In the meantime, the player is also supposed to doge the walls placed on the track&#10;and avoid being eaten by the spiders spawning after the finish line."/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Coin" class="h_box" style="flex-grow: 0; align-items: center; width: auto; height: auto;">
+                <ui:Image data-source-path="" source="project://database/Assets/Collectibles/Coin/Coin.png?fileID=2800000&amp;guid=e8fdbcc9d8e097a47a1f496960aed857&amp;type=3#Coin" scale-mode="ScaleAndCrop" style="transform-origin: center; width: 100px; height: 100px; -unity-background-scale-mode: stretch-to-fill; flex-grow: 0; flex-shrink: 0;"/>
+                <ui:Label text="Coin. Can be collected."/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Pizza" class="h_box" style="flex-grow: 0; align-items: center; width: auto; height: auto;">
+                <ui:Image data-source-path="" source="project://database/Assets/Collectibles/Pizza/Pizza.png?fileID=2800000&amp;guid=60b9de2abdd1625498e9e926b8db24d9&amp;type=3#Pizza" scale-mode="ScaleAndCrop" style="transform-origin: center; width: 100px; height: 100px; -unity-background-scale-mode: stretch-to-fill; flex-grow: 0; flex-shrink: 0;"/>
+                <ui:Label text="Pizza. Can be collected."/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Wine" class="h_box" style="flex-grow: 0; align-items: center; width: auto; height: auto;">
+                <ui:Image data-source-path="" source="project://database/Assets/Collectibles/Winebottle/Wine.png?fileID=2800000&amp;guid=4e78b1242ad4d4d4cb2aa0b1fd9bf983&amp;type=3#Wine" scale-mode="ScaleAndCrop" style="transform-origin: center; width: 100px; height: 100px; -unity-background-scale-mode: stretch-to-fill; flex-grow: 0; flex-shrink: 0;"/>
+                <ui:Label text="Wine. Reverses Up / Down input if collected.&#10;Effect can be reset to default if coffee&#10;is picked up."/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Coffee" class="h_box" style="flex-grow: 0; align-items: center; width: auto; height: auto;">
+                <ui:Image data-source-path="" source="project://database/Assets/Collectibles/Coffee/Coffee.png?fileID=2800000&amp;guid=60d868672377edf4d8d3c9a674771e6d&amp;type=3#Coffee" scale-mode="ScaleAndCrop" style="transform-origin: center; width: 100px; height: 100px; -unity-background-scale-mode: stretch-to-fill; flex-grow: 0; flex-shrink: 0;"/>
+                <ui:Label text="Coffee. Removes the Up / Down input reversal&#10;if consumed after picking up a wine bottle.&#10;Pauses time counter if consumed while being &quot;sober&quot;"/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Wall" class="h_box" style="flex-grow: 0; align-items: center; width: auto; height: auto;">
+                <ui:Image data-source-path="" source="project://database/Assets/Obstacles/Tall%20Obstacle/TallObstacle.png?fileID=2800000&amp;guid=06ec18c1ade52ee4abc5bc83a88b29b2&amp;type=3#TallObstacle" scale-mode="ScaleAndCrop" style="transform-origin: center; width: 100px; height: 100px; -unity-background-scale-mode: stretch-to-fill; flex-grow: 0; flex-shrink: 0; border-right-width: 0; margin-right: 0;"/>
+                <ui:Label text="Obstacle. Removes 1 HP if hit."/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Puddle" class="h_box" style="flex-grow: 0; align-items: center; width: auto; height: auto;">
+                <ui:Image data-source-path="" source="project://database/Assets/Obstacles/WaterPuddle/WaterPuddle.png?fileID=2800000&amp;guid=b5b5aa67c3389444492146c7179bc730&amp;type=3#WaterPuddle" scale-mode="ScaleAndCrop" style="transform-origin: center; width: 100px; height: 100px; -unity-background-scale-mode: stretch-to-fill; flex-grow: 0; flex-shrink: 0; border-right-width: 0; margin-right: 0;"/>
+                <ui:Label text="Puddle. Slows down the player if stepped on.&#10;Slowdown effect is cumulative."/>
+            </ui:VisualElement>
+            <ui:VisualElement name="Spider" class="h_box" style="flex-grow: 0; align-items: center; width: auto; height: auto;">
+                <ui:Image data-source-path="" source="project://database/Assets/Enemy/Spider/Spider.png?fileID=2800000&amp;guid=363673805cdf2ae4783a0fa4149ffc58&amp;type=3#Spider" scale-mode="ScaleAndCrop" style="transform-origin: center; width: 100px; height: 100px; -unity-background-scale-mode: stretch-to-fill; flex-grow: 0; flex-shrink: 0; border-right-width: 0; margin-right: 0;"/>
+                <ui:Label text="Spider. Spawns after the finish line is crossed.&#10;Removes 1 HP if hit. Can be killed by standing&#10;in front of it and pressing [Space] "/>
+            </ui:VisualElement>
+            <ui:Button text="Close Tutorial" name="CloseTutorialButton" class="box"/>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
