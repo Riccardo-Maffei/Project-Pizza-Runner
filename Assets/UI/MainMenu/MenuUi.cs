@@ -1,7 +1,9 @@
 using System;
+using System.Collections;
 
 using UnityEngine;
 using UnityEngine.UIElements;
+using UnityEngine.InputSystem;
 
 using Utils;
 
@@ -59,6 +61,35 @@ namespace UI.MainMenu
                 _mainMenuContainer.style.display = tutorialOpen ? DisplayStyle.None : DisplayStyle.Flex;
                 _tutorialContainer.style.display = tutorialOpen ? DisplayStyle.Flex : DisplayStyle.None;
             });
+        }
+
+        protected void OnStartGameShortcut(InputValue value)
+        {
+            if (!_tutorialOpen.GetValue()) StartCoroutine(LoadGameNextFrame());
+        }
+
+        protected void OnExitGameShortcut(InputValue value)
+        {
+            if (!_tutorialOpen.GetValue()) StartCoroutine(ExitGameNextFrame());
+            else _tutorialOpen.SetValue(false);
+        }
+
+        private static IEnumerator LoadGameNextFrame()
+        {
+            yield return null;
+            GameHandler.LoadGameScene();
+        }
+
+        private static IEnumerator ExitGameNextFrame()
+        {
+            yield return null;
+            GameHandler.EndGame();
+        }
+
+        private void OnDisable()
+        {
+            _startGameButton.clicked -= GameHandler.LoadGameScene;
+            _exitGameButton.clicked -= GameHandler.EndGame;
         }
     }
 }

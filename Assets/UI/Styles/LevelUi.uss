@@ -72,3 +72,19 @@
     width: 80%;
     justify-content: center;
 }
+
+.colorful_box {
+    background-color: rgb(238, 221, 130);
+    border-left-color: rgb(0, 0, 205);
+    border-right-color: rgb(0, 0, 205);
+    border-top-color: rgb(0, 0, 205);
+    border-bottom-color: rgb(0, 0, 205);
+    border-top-width: 4px;
+    border-right-width: 4px;
+    border-bottom-width: 4px;
+    border-left-width: 4px;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    border-bottom-right-radius: 20px;
+    border-bottom-left-radius: 20px;
+}

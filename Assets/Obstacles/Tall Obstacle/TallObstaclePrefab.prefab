@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 63a5fbcdab77440182dcb3d7a809737a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Obstacles.Tall_Obstacle.Scripts.TallObstacleBehaviour
+  hitParticlesPrefab: {fileID: 7150972432912827773, guid: 29e21c77af4141e499297c772895f75f, type: 3}
 --- !u!1 &1934157276574846661
 GameObject:
   m_ObjectHideFlags: 0

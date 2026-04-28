@@ -1,17 +1,23 @@
-﻿using UnityEngine;
-
+﻿using Player.Scripts;
+using UnityEngine;
 using Utils;
-
 
 namespace Obstacles.Tall_Obstacle.Scripts
 {
     public class TallObstacleBehaviour : MonoBehaviour, IInteractive
     {
+        [SerializeField] private GameObject hitParticlesPrefab;
         public void OnCollision(GameObject _)
         {
             // 1. Check if damage is enabled (prevents double damage)
             if (!GameData.DamageEnabled.GetValue()) return;
 
+            if (hitParticlesPrefab != null)
+            {
+               Instantiate(hitParticlesPrefab, transform.position, Quaternion.identity);
+            }
+            Destroy(gameObject);
+            
             // Briefly block damage
             GameData.DamageEnabled.SetValue(false);
 
@@ -25,7 +31,6 @@ namespace Obstacles.Tall_Obstacle.Scripts
             }
         }
 
-        // Helper method to reenable damage
         private static void ResetDamage()
         {
             GameData.DamageEnabled.SetValue(true);
