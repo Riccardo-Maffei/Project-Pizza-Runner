@@ -18,6 +18,7 @@ namespace Track.Scripts
 
         private Dictionary<GameObject, TrackPieceBehaviour> _pool;
 
+        private bool _isEndlessMode = false;
         private float GetDespawnX()
         {
             return playerTransform.position.x - trackWidth * (poolSize / 2.0f);
@@ -30,6 +31,7 @@ namespace Track.Scripts
 
         private void Start()
         {
+            _isEndlessMode = PlayerPrefs.GetInt("IsEndlessMode", 0) == 1;
             _pool = new Dictionary<GameObject, TrackPieceBehaviour>();
             _initialPlayerPosition = playerTransform.position.x;
 
