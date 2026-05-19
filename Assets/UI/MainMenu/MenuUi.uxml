@@ -1,6 +1,17 @@
 <ui:UXML xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" noNamespaceSchemaLocation="../../UIElementsSchema/UIElements.xsd" editor-extension-mode="False">
     <Style src="project://database/Assets/UI/Styles/LevelUi.uss?fileID=7433441132597879392&amp;guid=9703855db32c19b4782eebd44a61dd4b&amp;type=3#LevelUi"/>
     <ui:VisualElement name="UIContainer" style="justify-content: center; background-color: rgb(79, 28, 28); background-image: url(&quot;project://database/Assets/Scenes/MainMenuBackground.png?fileID=2800000&amp;guid=06a4b13a3dd6f2c41b56fc537da1768b&amp;type=3#MainMenuBackground&quot;); background-repeat: no-repeat no-repeat;">
+        <ui:VisualElement name="ModeSelectContainer" class="v_box" style="justify-content: center; flex-direction: column; width: auto; display: none;">
+            <ui:Label text="Project Pizza Runner" name="GameTitle" style="font-size: 15px; -unity-font-style: bold; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;"/>
+            <ui:Button text="Story Mode" name="StoryModeButton" class="box"/>
+            <ui:Button text="Endless Mode" name="EndlessModeButton" class="box"/>
+            <ui:Button text="Back" name="CloseModeSelectButton" class="box"/>
+            <ui:VisualElement name="ShortcutContainer" style="flex-grow: initial; width: auto; height: auto; align-self: center; justify-content: flex-start; flex-shrink: 1; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
+                <ui:Label text="To play Story Mode, press [1]" name="Shortcuts"/>
+                <ui:Label text="To play Endless Mode, press [2]" name="Shortcuts"/>
+                <ui:Label text="To go back, press [esc] or [delete]" name="Shortcuts"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
         <ui:VisualElement name="MainMenuContainer" class="v_box" style="justify-content: center; flex-direction: column; width: auto; display: flex;">
             <ui:Label text="Project Pizza Runner" name="GameTitle" style="font-size: 15px; -unity-font-style: bold; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;"/>
             <ui:Button text="Start game" name="StartGameButton" class="box"/>
@@ -44,6 +55,21 @@
                 <ui:Label text="Spider. Spawns after the finish line is crossed.&#10;Removes 1 HP if hit. Can be killed by standing&#10;in front of it and pressing [Space] "/>
             </ui:VisualElement>
             <ui:Button text="Close Tutorial" name="CloseTutorialButton" class="box"/>
+        </ui:VisualElement>
+        <ui:VisualElement name="TutorialSelectContainer" class="v_box" style="justify-content: center; flex-direction: column; width: auto; display: none;">
+            <ui:Label text="Project Pizza Runner" name="GameTitle" style="font-size: 15px; -unity-font-style: bold; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;"/>
+            <ui:Button text="General Information" name="GeneralInfoButton" class="box"/>
+            <ui:Button text="Dodging Obstacles" name="DodgingObstaclesButton" class="box"/>
+            <ui:Button text="Coins and Pizzas" name="CoinsPizzasButton" class="box"/>
+            <ui:Button text="Puddle effect" name="PuddleEffectButton" class="box"/>
+            <ui:Button text="Wine / coffee effect" name="WineCoffeeButton" enabled="true" class="box"/>
+            <ui:Button text="Spider" name="SpiderButton" class="box"/>
+            <ui:Button text="Back" name="BackToMainMenuButton" class="box"/>
+            <ui:VisualElement name="ShortcutContainer" style="flex-grow: initial; width: auto; height: auto; align-self: center; justify-content: flex-start; flex-shrink: 1; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
+                <ui:Label text="To play Story Mode, press [1]" name="Shortcuts"/>
+                <ui:Label text="To play Endless Mode, press [2]" name="Shortcuts"/>
+                <ui:Label text="To go back, press [esc] or [delete]" name="Shortcuts"/>
+            </ui:VisualElement>
         </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
