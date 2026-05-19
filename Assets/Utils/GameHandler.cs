@@ -8,6 +8,8 @@ namespace Utils
         private const int MenuSceneIndex = 0;
         private const int GameSceneIndex = 1;
         
+        private const int Tutorial1SceneIndex = 2;
+        
         public static void LoadMenuScene()
         {
             SceneManager.LoadScene(MenuSceneIndex);

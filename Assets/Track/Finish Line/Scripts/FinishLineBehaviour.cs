@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 using Utils;
 using Player.Scripts;
 
@@ -6,11 +7,14 @@ namespace Track.Finish_Line.Scripts
 {
     public class FinishLineBehaviour : MonoBehaviour, IInteractive
     {
+        public bool gameWonOnLineHit;
+
         public void OnCollision(GameObject _) {}
 
         public void OnTrigger(GameObject player) 
         {
             GameData.CrossedFinishLine.SetValue(true);
+            if (gameWonOnLineHit) GameData.CurrentState.SetValue(GameState.Won);
 
             var rb = player.GetComponent<Rigidbody2D>();
             if (rb != null) 
