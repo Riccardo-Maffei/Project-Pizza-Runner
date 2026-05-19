@@ -17,7 +17,9 @@ namespace Player.Scripts
         public float laneHeight = 1;
         public int laneCount = 3;
         public float laneSpeed = 10;
-        public float minPlayerY = 0.5f;
+        public float minPlayerY;
+        public float startingPlayerY;
+        
         private float _maxPlayerY;
         private float _currentPlayerY;
 
@@ -36,7 +38,7 @@ namespace Player.Scripts
         private void Start()
         {
             _currentPlayerSpeed = minPlayerSpeed;
-            _currentPlayerY = minPlayerY;
+            _currentPlayerY = startingPlayerY;
             _maxPlayerY = minPlayerY + laneHeight * laneCount;
 
             _oldX = playerRigidbody.position.x;
