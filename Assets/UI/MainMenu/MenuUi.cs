@@ -1,9 +1,9 @@
-using System;
 using System.Collections;
 
 using UnityEngine;
 using UnityEngine.UIElements;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
 using Utils;
 
@@ -84,12 +84,12 @@ namespace UI.MainMenu
             if (_endlessModeButton != null) _endlessModeButton.clicked += OnEndlessModeSelected;
 
             if (_backToMainMenuButton != null) _backToMainMenuButton.clicked += () => _tutorialSelectOpen.SetValue(false);
-            if (_generalInfoButton != null) _generalInfoButton.clicked += () => OpenSpecificTutorial("GeneralInfo");
-            if (_dodgingObstaclesButton != null) _dodgingObstaclesButton.clicked += () => OpenSpecificTutorial("DodgingObstacles");
-            if (_coinsPizzasButton != null) _coinsPizzasButton.clicked += () => OpenSpecificTutorial("CoinsPizzas");
-            if (_puddleEffectButton != null) _puddleEffectButton.clicked += () => OpenSpecificTutorial("PuddleEffect");
-            if (_wineCoffeeButton != null) _wineCoffeeButton.clicked += () => OpenSpecificTutorial("WineCoffee");
-            if (_spiderButton != null) _spiderButton.clicked += () => OpenSpecificTutorial("Spider");
+            if (_generalInfoButton != null) _generalInfoButton.clicked += OpenTutorialText;
+            if (_dodgingObstaclesButton != null) _dodgingObstaclesButton.clicked += () => OpenTutorialScene(GameHandler.Tutorial1SceneIndex);
+            if (_coinsPizzasButton != null) _coinsPizzasButton.clicked += () => OpenTutorialScene(GameHandler.Tutorial2SceneIndex);
+            if (_puddleEffectButton != null) _puddleEffectButton.clicked += () => OpenTutorialScene(GameHandler.Tutorial3SceneIndex);
+            if (_wineCoffeeButton != null) _wineCoffeeButton.clicked += () => OpenTutorialScene(GameHandler.Tutorial4SceneIndex);
+            if (_spiderButton != null) _spiderButton.clicked += () => OpenTutorialScene(GameHandler.Tutorial5SceneIndex);
 
             // --- Subscriptions für die Sichtbarkeit (Logik für das Ausblenden) ---
 
@@ -119,18 +119,16 @@ namespace UI.MainMenu
             });
         }
 
-        private void OpenSpecificTutorial(string topicName)
+        private void OpenTutorialText()
         {
-            if (topicName == "GeneralInfo")
-            {
-                _tutorialSelectOpen.SetValue(true); // Bleibt technisch offen (für ESC-Logik)
-                _tutorialOpen.SetValue(true);        // Text schaltet sich darüber
-                Debug.Log("Öffne Text-Tutorial: General Information");
-            }
-            else
-            {
-                Debug.Log("Tutorial für '" + topicName + "' ist noch nicht implementiert.");
-            }
+            _tutorialSelectOpen.SetValue(true); // Bleibt technisch offen (für ESC-Logik)
+            _tutorialOpen.SetValue(true);       // Text schaltet sich darüber
+            Debug.Log("Öffne Text-Tutorial: General Information");
+        }
+
+        private static void OpenTutorialScene(int sceneIndex)
+        {
+            SceneManager.LoadScene(sceneIndex);
         }
         
         private void OnStoryModeSelected()
@@ -198,27 +196,27 @@ namespace UI.MainMenu
             {
                 if (Keyboard.current.digit1Key.wasPressedThisFrame || Keyboard.current.numpad1Key.wasPressedThisFrame)
                 {
-                    OpenSpecificTutorial("GeneralInfo");
+                    OpenTutorialText();
                 }
                 else if (Keyboard.current.digit2Key.wasPressedThisFrame || Keyboard.current.numpad2Key.wasPressedThisFrame)
                 {
-                    OpenSpecificTutorial("DodgingObstacles");
+                    OpenTutorialScene(GameHandler.Tutorial1SceneIndex);
                 }
                 else if (Keyboard.current.digit3Key.wasPressedThisFrame || Keyboard.current.numpad3Key.wasPressedThisFrame)
                 {
-                    OpenSpecificTutorial("CoinsPizzas");
+                    OpenTutorialScene(GameHandler.Tutorial2SceneIndex);
                 }
                 else if (Keyboard.current.digit4Key.wasPressedThisFrame || Keyboard.current.numpad4Key.wasPressedThisFrame)
                 {
-                    OpenSpecificTutorial("PuddleEffect");
+                    OpenTutorialScene(GameHandler.Tutorial3SceneIndex);
                 }
                 else if (Keyboard.current.digit5Key.wasPressedThisFrame || Keyboard.current.numpad5Key.wasPressedThisFrame)
                 {
-                    OpenSpecificTutorial("WineCoffee");
+                    OpenTutorialScene(GameHandler.Tutorial4SceneIndex);
                 }
                 else if (Keyboard.current.digit6Key.wasPressedThisFrame || Keyboard.current.numpad6Key.wasPressedThisFrame)
                 {
-                    OpenSpecificTutorial("Spider");
+                    OpenTutorialScene(GameHandler.Tutorial5SceneIndex);
                 }
             }
         }
