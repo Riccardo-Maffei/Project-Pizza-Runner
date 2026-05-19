@@ -17,7 +17,7 @@ namespace Track.Scripts
         private float _initialPlayerPosition;
 
         private Dictionary<GameObject, TrackPieceBehaviour> _pool;
-
+        
         private float GetDespawnX()
         {
             return playerTransform.position.x - trackWidth * (poolSize / 2.0f);
