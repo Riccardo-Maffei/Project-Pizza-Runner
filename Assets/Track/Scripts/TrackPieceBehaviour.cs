@@ -42,13 +42,26 @@ namespace Track.Scripts
             ClearAllCollectibles();
 
             TrackType trackType;
-
-            if (distanceFromStart >= GameData.TrackLength.GetValue() && !GameData.SpawnedFinishLine.GetValue())
+            
+            bool isEndlessMode = PlayerPrefs.GetInt("IsEndlessMode", 0) == 1;
+            
+            if (!isEndlessMode && distanceFromStart >= GameData.TrackLength.GetValue() && !GameData.SpawnedFinishLine.GetValue())
             {
                 trackType = TrackType.Finish;
                 GameData.SpawnedFinishLine.SetValue(true);
             }
-            else if (distanceFromStart >= GameData.TrackLength.GetValue()) trackType = TrackType.Aftermath;
+            
+            else if (!isEndlessMode && distanceFromStart >= GameData.TrackLength.GetValue())
+                {
+                    trackType = TrackType.Aftermath;
+                }
+
+            //if (distanceFromStart >= GameData.TrackLength.GetValue() && !GameData.SpawnedFinishLine.GetValue())
+            //{
+            //    trackType = TrackType.Finish;
+             //   GameData.SpawnedFinishLine.SetValue(true);
+            //}
+            //else if (distanceFromStart >= GameData.TrackLength.GetValue()) trackType = TrackType.Aftermath;
             else trackType = _trackTypes[Random.Range(0, _trackTypes.Length)];
 
             switch (trackType)

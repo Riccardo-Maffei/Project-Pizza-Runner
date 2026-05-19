@@ -56,5 +56,20 @@
             </ui:VisualElement>
             <ui:Button text="Close Tutorial" name="CloseTutorialButton" class="box"/>
         </ui:VisualElement>
+        <ui:VisualElement name="TutorialSelectContainer" class="v_box" style="justify-content: center; flex-direction: column; width: auto; display: none;">
+            <ui:Label text="Project Pizza Runner" name="GameTitle" style="font-size: 15px; -unity-font-style: bold; padding-top: 10px; padding-right: 10px; padding-bottom: 10px; padding-left: 10px; margin-top: 10px; margin-right: 10px; margin-bottom: 10px; margin-left: 10px;"/>
+            <ui:Button text="General Information" name="GeneralInfoButton" class="box"/>
+            <ui:Button text="Dodging Obstacles" name="DodgingObstaclesButton" class="box"/>
+            <ui:Button text="Coins and Pizzas" name="CoinsPizzasButton" class="box"/>
+            <ui:Button text="Puddle effect" name="PuddleEffectButton" class="box"/>
+            <ui:Button text="Wine / coffee effect" name="WineCoffeeButton" enabled="true" class="box"/>
+            <ui:Button text="Spider" name="SpiderButton" class="box"/>
+            <ui:Button text="Back" name="BackToMainMenuButton" class="box"/>
+            <ui:VisualElement name="ShortcutContainer" style="flex-grow: initial; width: auto; height: auto; align-self: center; justify-content: flex-start; flex-shrink: 1; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
+                <ui:Label text="To play Story Mode, press [1]" name="Shortcuts"/>
+                <ui:Label text="To play Endless Mode, press [2]" name="Shortcuts"/>
+                <ui:Label text="To go back, press [esc] or [delete]" name="Shortcuts"/>
+            </ui:VisualElement>
+        </ui:VisualElement>
     </ui:VisualElement>
 </ui:UXML>
