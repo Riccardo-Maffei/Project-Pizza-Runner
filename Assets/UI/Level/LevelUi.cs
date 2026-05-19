@@ -9,7 +9,7 @@ using Utils;
 
 namespace UI.Level
 {
-    public class GameUI : MonoBehaviour
+    public class LevelUI : MonoBehaviour
     {
         private Label _distanceField;
         private Label _hpField;
