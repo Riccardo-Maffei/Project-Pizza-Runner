@@ -191,12 +191,14 @@ MonoBehaviour:
   laneHeight: 1
   laneCount: 3
   laneSpeed: 15
-  minPlayerY: 0.5
+  minPlayerY: -1
+  startingPlayerY: 0
   minPlayerSpeed: 1
   maxPlayerSpeed: 10
   playerAcceleration: 5
   shotOrigin: {fileID: 7810739368257381697}
   shotRange: 20
+  blockEarlyShooting: 1
 --- !u!50 &8360589843626407839
 Rigidbody2D:
   serializedVersion: 5

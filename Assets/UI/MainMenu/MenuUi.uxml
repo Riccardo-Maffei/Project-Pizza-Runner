@@ -65,7 +65,7 @@
             <ui:Button text="Wine / coffee effect" name="WineCoffeeButton" enabled="true" class="box"/>
             <ui:Button text="Spider" name="SpiderButton" class="box"/>
             <ui:Button text="Back" name="BackToMainMenuButton" class="box"/>
-            <ui:VisualElement name="ShortcutContainer" style="flex-grow: initial; width: auto; height: auto; align-self: center; justify-content: flex-start; flex-shrink: 1; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px;">
+            <ui:VisualElement name="ShortcutContainer" style="flex-grow: initial; width: auto; height: auto; align-self: center; justify-content: flex-start; flex-shrink: 1; padding-top: 20px; padding-right: 20px; padding-bottom: 20px; padding-left: 20px; display: none;">
                 <ui:Label text="To play Story Mode, press [1]" name="Shortcuts"/>
                 <ui:Label text="To play Endless Mode, press [2]" name="Shortcuts"/>
                 <ui:Label text="To go back, press [esc] or [delete]" name="Shortcuts"/>
