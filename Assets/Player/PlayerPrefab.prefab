@@ -200,7 +200,9 @@ MonoBehaviour:
   shotOrigin: {fileID: 7810739368257381697}
   shotRange: 20
   blockEarlyShooting: 1
+  reloadTimeSeconds: 2
   shootingSound: {fileID: 8300000, guid: 48ac777abbf13b54a9c820c245b6c0fb, type: 3}
+  clickingSound: {fileID: 8300000, guid: 9f40a06c6103e8842b6670f8c2623090, type: 3}
   deathSound: {fileID: 8300000, guid: bbfd7afd4692b9643ad31944aa9dcc44, type: 3}
   audioSource: {fileID: 191414772150677464}
 --- !u!50 &8360589843626407839

@@ -38,6 +38,7 @@ namespace Player.Scripts
 
         [Header("Audio Settings")]
         public AudioClip shootingSound;
+        public AudioClip clickingSound;
         public AudioClip deathSound;
         public AudioSource audioSource;
         
@@ -116,7 +117,12 @@ namespace Player.Scripts
             if (GameData.Hp.GetValue() <= 0) return;
             
             // Block if still reloading
-            if (Time.time - _timeOfLastShot < reloadTimeSeconds) return;
+            if (Time.time - _timeOfLastShot < reloadTimeSeconds)
+            {
+                audioSource.PlayOneShot(clickingSound);
+                return;
+            }
+            
             _timeOfLastShot = Time.time;
             
             audioSource.PlayOneShot(shootingSound);
