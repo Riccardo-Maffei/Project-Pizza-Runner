@@ -35,6 +35,13 @@ namespace Player.Scripts
         public float shotRange = 20f;
         public bool blockEarlyShooting = true;
         
+        [Header("Audio Settings")]
+        public AudioClip shootingSound;
+        public AudioClip deathSound;
+        public AudioSource audioSource;
+
+        private Action<int> _deathListener;
+        
         private void Start()
         {
             _currentPlayerSpeed = minPlayerSpeed;
@@ -42,6 +49,18 @@ namespace Player.Scripts
             _maxPlayerY = minPlayerY + laneHeight * laneCount;
 
             _oldX = playerRigidbody.position.x;
+            
+            _deathListener = hp =>
+            {
+                if (hp <= 0) audioSource.PlayOneShot(deathSound);
+            };
+            
+            GameData.Hp.Subscribe(_deathListener);
+        }
+
+        private void OnDestroy()
+        {
+            GameData.Hp.Unsubscribe(_deathListener);
         }
 
         private void FixedUpdate()
@@ -91,6 +110,7 @@ namespace Player.Scripts
             // Block if player is not over the line and early shots are disabled
             if (!GameData.CrossedFinishLine.GetValue() && blockEarlyShooting) return;
             
+            audioSource.PlayOneShot(shootingSound);
             ExecuteRaycastShoot();
         }
 

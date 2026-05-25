@@ -92,6 +92,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db0efeb3ecb3f73438ffe6d5c8b7ca60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectibles.Coffee.CoffeeBehaviour
+  collectSound: {fileID: 8300000, guid: b7fdc9f5671407f4d97a5b2ee534b261, type: 3}
   timeLockDuration: 5
 --- !u!1 &4587946421152280630
 GameObject:

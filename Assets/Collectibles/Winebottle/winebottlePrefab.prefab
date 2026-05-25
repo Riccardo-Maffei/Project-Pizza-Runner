@@ -105,6 +105,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 98e3bef7516a68140959f23098b07dac, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WineBehaviour
+  collectSound: {fileID: 8300000, guid: fa2c01397ebcfa64c979ca01bbffe004, type: 3}
 --- !u!61 &1514100352371331712
 BoxCollider2D:
   m_ObjectHideFlags: 0

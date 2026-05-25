@@ -9,6 +9,10 @@ namespace Enemy.Spider
         [Header("Movement Settings")]
         public float speed = 12;
         public float despawnDistance = 15f;
+        
+        [Header("Sound Settings")]
+        public AudioClip biteSound;
+        public AudioClip deathSound;
 
         private Camera _mainCam;
         private Rigidbody2D _rb;
@@ -42,6 +46,9 @@ namespace Enemy.Spider
         public void OnCollision(GameObject other)
         {
             Debug.Log("Player was bitten");
+            
+            AudioSource.PlayClipAtPoint(biteSound, transform.position);
+            
             if (GameData.Hp.GetValue() > 0) GameData.Hp.Decrease(1);
             
             Unalive();
@@ -50,6 +57,9 @@ namespace Enemy.Spider
         public void OnRayCastHit(GameObject other)
         {
             Debug.Log("Spider killed by raycast!");
+            
+            AudioSource.PlayClipAtPoint(deathSound, transform.position);
+            
             Unalive();
         }
     }
