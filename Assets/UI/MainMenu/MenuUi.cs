@@ -172,6 +172,18 @@ namespace UI.MainMenu
             if (!_modeSelectOpen.GetValue() && !_tutorialSelectOpen.GetValue() && !_tutorialOpen.GetValue())
             {
                 // Taste 1 öffnet nun das Tutorial-Auswahlmenü
+                //if (Keyboard.current.digit1Key.wasPressedThisFrame || Keyboard.current.numpad1Key.wasPressedThisFrame)
+                //{
+                //    _tutorialSelectOpen.SetValue(true);
+                //}
+                
+                // Start Game via Space oder Enter (wie im UI-Text beschrieben)
+                if (Keyboard.current.spaceKey.wasPressedThisFrame || Keyboard.current.enterKey.wasPressedThisFrame)
+                {
+                    _modeSelectOpen.SetValue(true);
+                }
+        
+                // Tutorial öffnen via Taste T oder 1 (Falls du die 1 behalten willst, sonst auskommentieren)
                 if (Keyboard.current.digit1Key.wasPressedThisFrame || Keyboard.current.numpad1Key.wasPressedThisFrame)
                 {
                     _tutorialSelectOpen.SetValue(true);
@@ -179,7 +191,7 @@ namespace UI.MainMenu
             }
 
             // --- 2. Shortcuts für das Start-Modus-Auswahlmenü ---
-            if (_modeSelectOpen.GetValue())
+            else if (_modeSelectOpen.GetValue())
             {
                 if (Keyboard.current.digit1Key.wasPressedThisFrame || Keyboard.current.numpad1Key.wasPressedThisFrame)
                 {
@@ -192,7 +204,7 @@ namespace UI.MainMenu
             }
 
             // --- 3. Shortcuts für die Tutorial-Themenauswahl ---
-            if (_tutorialSelectOpen.GetValue() && !_tutorialOpen.GetValue())
+            else if (_tutorialSelectOpen.GetValue() && !_tutorialOpen.GetValue())
             {
                 if (Keyboard.current.digit1Key.wasPressedThisFrame || Keyboard.current.numpad1Key.wasPressedThisFrame)
                 {
