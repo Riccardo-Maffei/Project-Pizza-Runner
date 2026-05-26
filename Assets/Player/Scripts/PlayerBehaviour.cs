@@ -36,7 +36,14 @@ namespace Player.Scripts
         public bool blockEarlyShooting = true;
         public float reloadTimeSeconds = 2f;
 
+        [Header("Audio Settings")]
+        public AudioClip shootingSound;
+        public AudioClip clickingSound;
+        public AudioClip deathSound;
+        public AudioSource audioSource;
+        
         private float _timeOfLastShot;
+        private Action<int> _deathListener;
         
         private void Start()
         {
@@ -45,6 +52,18 @@ namespace Player.Scripts
             _maxPlayerY = minPlayerY + laneHeight * laneCount;
 
             _oldX = playerRigidbody.position.x;
+            
+            _deathListener = hp =>
+            {
+                if (hp <= 0) audioSource.PlayOneShot(deathSound);
+            };
+            
+            GameData.Hp.Subscribe(_deathListener);
+        }
+
+        private void OnDestroy()
+        {
+            GameData.Hp.Unsubscribe(_deathListener);
         }
 
         private void FixedUpdate()
@@ -98,9 +117,15 @@ namespace Player.Scripts
             if (GameData.Hp.GetValue() <= 0) return;
             
             // Block if still reloading
-            if (Time.time - _timeOfLastShot < reloadTimeSeconds) return;
+            if (Time.time - _timeOfLastShot < reloadTimeSeconds)
+            {
+                audioSource.PlayOneShot(clickingSound);
+                return;
+            }
+            
             _timeOfLastShot = Time.time;
             
+            audioSource.PlayOneShot(shootingSound);
             ExecuteRaycastShoot();
         }
 

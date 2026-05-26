@@ -93,8 +93,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Obstacles.WaterPuddle.WaterPuddleBehaviour
   playerSpeedMultiplier: 0.2
-  slowdownSecondsDuration: 5
-  multiplierIdentifier: water
+  multiplierDuration: 2
+  slippingSound: {fileID: 8300000, guid: eb7ffca250f48bd48823b1a46c037cff, type: 3}
 --- !u!1 &1934157276574846661
 GameObject:
   m_ObjectHideFlags: 0

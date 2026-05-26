@@ -1,5 +1,5 @@
-﻿using UnityEngine;
-using Utils;
+﻿using Utils;
+using UnityEngine;
 
 
 namespace Obstacles.WaterPuddle
@@ -9,10 +9,14 @@ namespace Obstacles.WaterPuddle
         public float playerSpeedMultiplier = 0.4f;
         public int multiplierDuration = 2;
         
+        public AudioClip slippingSound;
+        
         public void OnTrigger(GameObject _)
         {
             GameData.SpeedMultipliers.Add(playerSpeedMultiplier);
             GameData.IsSlipping.SetValue(true);
+            
+            AudioSource.PlayClipAtPoint(slippingSound, transform.position);
             
             Delay.BySeconds(RemoveSlowdown, multiplierDuration);
         }

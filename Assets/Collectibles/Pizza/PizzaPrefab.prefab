@@ -82,6 +82,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0cb9fd69282e014c980a8c4ba9b857c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Collectibles.Pizza.PizzaBehaviour
+  collectSound: {fileID: 8300000, guid: 9e1f2adb460aa814586e606cf31e42e7, type: 3}
 --- !u!1 &4587946421152280630
 GameObject:
   m_ObjectHideFlags: 0

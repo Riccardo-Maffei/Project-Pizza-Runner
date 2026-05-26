@@ -323,7 +323,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6864639171072831806, guid: 49b2fbcde7837184c8bf85e8e7a2effb, type: 3}
       propertyPath: m_Name
-      value: Audio Manager
+      value: Music Manager
       objectReference: {fileID: 0}
     - target: {fileID: 7798917528422125651, guid: 49b2fbcde7837184c8bf85e8e7a2effb, type: 3}
       propertyPath: m_Resource
