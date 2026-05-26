@@ -34,6 +34,9 @@ namespace Player.Scripts
         public Transform shotOrigin;
         public float shotRange = 20f;
         public bool blockEarlyShooting = true;
+        public float reloadTimeSeconds = 2f;
+
+        private float _timeOfLastShot;
         
         private void Start()
         {
@@ -90,6 +93,13 @@ namespace Player.Scripts
         {
             // Block if player is not over the line and early shots are disabled
             if (!GameData.CrossedFinishLine.GetValue() && blockEarlyShooting) return;
+            
+            // Block if player is already dead
+            if (GameData.Hp.GetValue() <= 0) return;
+            
+            // Block if still reloading
+            if (Time.time - _timeOfLastShot < reloadTimeSeconds) return;
+            _timeOfLastShot = Time.time;
             
             ExecuteRaycastShoot();
         }
